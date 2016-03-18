@@ -36,7 +36,7 @@ else {
 	
 	try {
 		$data=array(); 
-		$sql="SELECT * FROM staffHandbookEntry ORDER BY title" ;
+		$sql="SELECT * FROM staffHandbookEntry WHERE NOT logoLicense='' ORDER BY title" ;
 		$result=$connection2->prepare($sql);
 		$result->execute($data);
 	}

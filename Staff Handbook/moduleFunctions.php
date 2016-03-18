@@ -46,7 +46,7 @@ function getStaffHandbook($connection2, $guid) {
 				
 				$output.="<td style='text-align: center; width: 50%'>" ;
 					$output.="<div style='margin: 10px 0'>" ;
-						$output.="<a style='font-size: 150%; font-weight: bold; letter-spacing: -0.5px;' href=''>" ;
+						$output.="<a style='font-size: 150%; font-weight: bold; letter-spacing: -0.5px;' href='" . $row["url"] . "' target='_blank'>" ;
 							if ($row["logo"]!="") {
 								$output.="<img class='user' style='margin-bottom: 10px; width: 335px; height: 205px' src='" . $_SESSION[$guid]["absoluteURL"] . "/" . $row["logo"] . "'/>" ;
 							}
