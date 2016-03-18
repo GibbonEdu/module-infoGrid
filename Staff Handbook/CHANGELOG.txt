@@ -1,0 +1,7 @@
+CHANGELOG
+=========
+v1.0.00
+-------
+Added ability to define handbook entries
+Added display of handbook entries
+Added staff dashboard hook
