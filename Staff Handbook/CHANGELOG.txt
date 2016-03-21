@@ -1,5 +1,11 @@
 CHANGELOG
 =========
+v1.0.01
+-------
+Tweaked icon size
+Made internal links open in current tab, not new tab
+Added edit link to handbook view, for privileged users
+
 v1.0.00
 -------
 Added ability to define handbook entries

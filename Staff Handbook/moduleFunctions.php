@@ -38,6 +38,12 @@ function getStaffHandbook($connection2, $guid) {
 	else {
 		$count=0 ;
 		
+		if (isActionAccessible($guid, $connection2, "/modules/Staff Handbook/staffHandbook_manage.php")==TRUE) {
+			$output.="<div class='linkTop'>" ;
+				$output.="<a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php'>" . __($guid, 'Edit') . "<img style='margin: 0 0 -4px 5px' title='" . __($guid, 'Edit') . "' src='./themes/" . $_SESSION[$guid]["gibbonThemeName"] . "/img/config.png'/></a> " ;
+			$output.="</div>" ;
+		}
+							
 		$output.="<table class='noIntBorder' cellspacing='0' style='width: 100%'>" ;
 			while ($row=$result->fetch()) {
 				if ($count%2==0) {
@@ -46,12 +52,17 @@ function getStaffHandbook($connection2, $guid) {
 				
 				$output.="<td style='text-align: center; width: 50%'>" ;
 					$output.="<div style='margin: 10px 0'>" ;
-						$output.="<a style='font-size: 150%; font-weight: bold; letter-spacing: -0.5px;' href='" . $row["url"] . "' target='_blank'>" ;
+						$target="" ;
+						if (substr($row["url"], 0, strlen($_SESSION[$guid]["absoluteURL"]))!=$_SESSION[$guid]["absoluteURL"]) {
+							$target="target='_blank'" ;
+						}
+						
+						$output.="<a style='font-size: 150%; font-weight: bold; letter-spacing: -0.5px;' href='" . $row["url"] . "' $target>" ;
 							if ($row["logo"]!="") {
-								$output.="<img class='user' style='margin-bottom: 10px; width: 335px; height: 205px' src='" . $_SESSION[$guid]["absoluteURL"] . "/" . $row["logo"] . "'/>" ;
+								$output.="<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='" . $_SESSION[$guid]["absoluteURL"] . "/" . $row["logo"] . "'/>" ;
 							}
 							else {
-								$output.="<img class='user' style='margin-bottom: 10px; width: 335px; height: 205px' src='" . $_SESSION[$guid]["absoluteURL"] . "/modules/Staff Handbook/img/anonymous.jpg'/>" ;
+								$output.="<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='" . $_SESSION[$guid]["absoluteURL"] . "/modules/Staff Handbook/img/anonymous.jpg'/>" ;
 							}
 							$output.=$row["title"] ;
 						$output.="</a>" ;

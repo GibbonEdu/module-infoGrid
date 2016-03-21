@@ -102,10 +102,10 @@ else {
 					while ($unique==FALSE AND $count<100) {
 						$suffix=randomPassword(16) ;
 						if ($count==0) {
-							$logo="uploads/" . date("Y", $time) . "/" . date("m", $time) . "/award_$suffix" . strrchr($_FILES["file"]["name"], ".") ;
+							$logo="uploads/" . date("Y", $time) . "/" . date("m", $time) . "/staffHandbook_$suffix" . strrchr($_FILES["file"]["name"], ".") ;
 						}
 						else {
-							$logo="uploads/" . date("Y", $time) . "/" . date("m", $time) . "/award_$suffix" . "_$count" . strrchr($_FILES["file"]["name"], ".") ;
+							$logo="uploads/" . date("Y", $time) . "/" . date("m", $time) . "/staffHandbook_$suffix" . "_$count" . strrchr($_FILES["file"]["name"], ".") ;
 						}
 						
 						if (!(file_exists($path . "/" . $logo))) {

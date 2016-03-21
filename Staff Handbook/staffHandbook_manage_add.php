@@ -112,7 +112,7 @@ else {
 			<tr>
 				<td> 
 					<b>Logo</b><br/>
-					<span style="font-size: 90%"><i><?php print __($guid, '335px x 205px') ?></i></span>
+					<span style="font-size: 90%"><i><?php print __($guid, '335px x 140px') ?></i></span>
 				</td>
 				<td class="right">
 					<input type="file" name="file" id="file">

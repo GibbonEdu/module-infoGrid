@@ -160,10 +160,10 @@ else {
 				print "<tr class=$rowNum>" ;
 					print "<td>" ;
 						if ($row["logo"]!="") {
-							print "<img class='user' style='width: 335px; height: 205px' src='" . $_SESSION[$guid]["absoluteURL"] . "/" . $row["logo"] . "'/>" ;
+							print "<img class='user' style='width: 335px; height: 140px' src='" . $_SESSION[$guid]["absoluteURL"] . "/" . $row["logo"] . "'/>" ;
 						}
 						else {
-							print "<img class='user' style='width: 335px; height: 205px' src='" . $_SESSION[$guid]["absoluteURL"] . "/modules/Staff Handbook/img/anonymous.jpg'/>" ;
+							print "<img class='user' style='width: 335px; height: 140px' src='" . $_SESSION[$guid]["absoluteURL"] . "/modules/Staff Handbook/img/anonymous.jpg'/>" ;
 						}
 					print "</td>" ;
 					print "<td>" ;
