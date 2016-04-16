@@ -25,13 +25,13 @@ include "./modules/" . $_SESSION[$guid]["module"] . "/moduleFunctions.php" ;
 if (isActionAccessible($guid, $connection2, "/modules/Staff Handbook/staffHandbook_view.php")==FALSE) {
 	//Acess denied
 	print "<div class='error'>" ;
-		print __($guid, "You do not have access to this action.") ;
+		print ___($guid, $guid, "You do not have access to this action.") ;
 	print "</div>" ;
 }
 else {
 	//Proceed!
 	print "<div class='trail'>" ;
-	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>" . __($guid, "Home") . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . __($guid, getModuleName($_GET["q"])) . "</a> > </div><div class='trailEnd'>" . __($guid, 'Credits & Licensing') . "</div>" ;
+	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>" . ___($guid, $guid, "Home") . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . ___($guid, $guid, getModuleName($_GET["q"])) . "</a> > </div><div class='trailEnd'>" . ___($guid, $guid, 'Credits & Licensing') . "</div>" ;
 	print "</div>" ;
 	
 	try {
@@ -45,7 +45,7 @@ else {
 	}
 	if ($result->rowCount()<1) {
 		print "<div class='error'>" ;
-		print __($guid, "There are no records to display.") ;
+		print ___($guid, $guid, "There are no records to display.") ;
 		print "</div>" ;
 	}
 	else {

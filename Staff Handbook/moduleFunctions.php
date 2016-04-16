@@ -32,7 +32,7 @@ function getStaffHandbook($connection2, $guid) {
 	
 	if ($result->rowCount()<1) {
 		$output.="<div class='error'>" ;
-		$output.=__($guid, "There are no records to display.") ;
+		$output.=___($guid, $guid, "There are no records to display.") ;
 		$output.="</div>" ;
 	}
 	else {
@@ -40,7 +40,7 @@ function getStaffHandbook($connection2, $guid) {
 		
 		if (isActionAccessible($guid, $connection2, "/modules/Staff Handbook/staffHandbook_manage.php")==TRUE) {
 			$output.="<div class='linkTop'>" ;
-				$output.="<a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php'>" . __($guid, 'Edit') . "<img style='margin: 0 0 -4px 5px' title='" . __($guid, 'Edit') . "' src='./themes/" . $_SESSION[$guid]["gibbonThemeName"] . "/img/config.png'/></a> " ;
+				$output.="<a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php'>" . ___($guid, $guid, 'Edit') . "<img style='margin: 0 0 -4px 5px' title='" . ___($guid, $guid, 'Edit') . "' src='./themes/" . $_SESSION[$guid]["gibbonThemeName"] . "/img/config.png'/></a> " ;
 			$output.="</div>" ;
 		}
 							

@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, "/modules/Staff Handbook/staffHandbo
 }
 else {
 	print "<div class='trail'>" ;
-	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>Home</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . getModuleName($_GET["q"]) . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/staffHandbook_manage.php'>" . __($guid, 'Manage Staff Handbook') . "</a> > </div><div class='trailEnd'>" . __($guid, 'Add Staff Handbook Entry') . "</div>" ;
+	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>Home</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . getModuleName($_GET["q"]) . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/staffHandbook_manage.php'>" . ___($guid, $guid, 'Manage Staff Handbook') . "</a> > </div><div class='trailEnd'>" . ___($guid, $guid, 'Add Staff Handbook Entry') . "</div>" ;
 	print "</div>" ;
 	
 	if (isset($_GET["addReturn"])) { $addReturn=$_GET["addReturn"] ; } else { $addReturn="" ; }
@@ -84,8 +84,8 @@ else {
 			</tr>
 			<tr>
 				<td> 
-					<b><?php print __($guid, 'Priority') ?> *</b><br/>
-					<span style="font-size: 90%"><i><?php print __($guid, "Higher priorities are displayed first.") ?></i></span>
+					<b><?php print ___($guid, $guid, 'Priority') ?> *</b><br/>
+					<span style="font-size: 90%"><i><?php print ___($guid, $guid, "Higher priorities are displayed first.") ?></i></span>
 				</td>
 				<td class="right">
 					<input name="priority" id="priority" maxlength=2 value="0" type="text" style="width: 300px">
@@ -98,7 +98,7 @@ else {
 			</tr>	
 			<tr>
 				<td>
-					<b><?php print __($guid, 'Link') ?> *</b><br/>
+					<b><?php print ___($guid, $guid, 'Link') ?> *</b><br/>
 				</td>
 				<td class='right'>
 					<input name='url' id='url' maxlength=255 value='' type='text' style='width: 300px'>
@@ -112,7 +112,7 @@ else {
 			<tr>
 				<td> 
 					<b>Logo</b><br/>
-					<span style="font-size: 90%"><i><?php print __($guid, '335px x 140px') ?></i></span>
+					<span style="font-size: 90%"><i><?php print ___($guid, $guid, '335px x 140px') ?></i></span>
 				</td>
 				<td class="right">
 					<input type="file" name="file" id="file">
