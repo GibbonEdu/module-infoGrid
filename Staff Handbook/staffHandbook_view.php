@@ -25,25 +25,25 @@ include "./modules/" . $_SESSION[$guid]["module"] . "/moduleFunctions.php" ;
 if (isActionAccessible($guid, $connection2, "/modules/Staff Handbook/staffHandbook_view.php")==FALSE) {
 	//Acess denied
 	print "<div class='error'>" ;
-		print ___($guid, $guid, "You do not have access to this action.") ;
+		print __($guid, "You do not have access to this action.") ;
 	print "</div>" ;
 }
 else {
 	//Proceed!
 	print "<div class='trail'>" ;
-	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>" . ___($guid, $guid, "Home") . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . ___($guid, $guid, getModuleName($_GET["q"])) . "</a> > </div><div class='trailEnd'>" . ___($guid, $guid, 'View Staff Handbook') . "</div>" ;
+	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>" . __($guid, "Home") . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . __($guid, getModuleName($_GET["q"])) . "</a> > </div><div class='trailEnd'>" . __($guid, 'View Staff Handbook') . "</div>" ;
 	print "</div>" ;
 	
 	//Get action with highest precendence
 	$highestAction=getHighestGroupedAction($guid, $_GET["q"], $connection2) ;
 	if ($highestAction==FALSE) {
 		print "<div class='error'>" ;
-		print ___($guid, $guid, "The highest grouped action cannot be determined.") ;
+		print __($guid, "The highest grouped action cannot be determined.") ;
 		print "</div>" ;
 	}
 	else {
 		print "<h2>" ;
-		print ___($guid, $guid, "Staff Handbook") ;
+		print __($guid, "Staff Handbook") ;
 		print "</h2>" ;
 		print getStaffHandbook($connection2, $guid) ;
 	}
