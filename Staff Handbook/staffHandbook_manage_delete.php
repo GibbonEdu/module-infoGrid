@@ -17,102 +17,82 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-@session_start() ;
+@session_start();
 
 //Module includes
-include "./modules/Staff Handbook/moduleFunctions.php" ;
+include './modules/Staff Handbook/moduleFunctions.php';
 
-if (isActionAccessible($guid, $connection2, "/modules/Staff Handbook/staffHandbook_manage_delete.php")==FALSE) {
-	//Acess denied
-	print "<div class='error'>" ;
-		print "You do not have access to this action." ;
-	print "</div>" ;
-}
-else {
-	//Proceed!
-	print "<div class='trail'>" ;
-	print "<div class='trailHead'><a href='" . $_SESSION[$guid]["absoluteURL"] . "'>Home</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/" . getModuleEntry($_GET["q"], $connection2, $guid) . "'>" . getModuleName($_GET["q"]) . "</a> > <a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/" . getModuleName($_GET["q"]) . "/staffHandbook_manage.php'>" . __($guid, 'Manage Staff Handbook') . "</a> > </div><div class='trailEnd'>" . __($guid, 'Delete Staff Hanbook Entry') . "</div>" ;
-	print "</div>" ;
-	
-	if (isset($_GET["deleteReturn"])) { $deleteReturn=$_GET["deleteReturn"] ; } else { $deleteReturn="" ; }
-	$deleteReturnMessage ="" ;
-	$class="error" ;
-	if (!($deleteReturn=="")) {
-		if ($deleteReturn=="fail0") {
-			$deleteReturnMessage ="Update failed because you do not have access to this action." ;	
-		}
-		else if ($deleteReturn=="fail1") {
-			$deleteReturnMessage ="Update failed because a required parameter was not set." ;	
-		}
-		else if ($deleteReturn=="fail2") {
-			$deleteReturnMessage ="Update failed due to a database error." ;	
-		}
-		else if ($deleteReturn=="fail3") {
-			$deleteReturnMessage ="Update failed because your inputs were invalid." ;	
-		}
-		print "<div class='$class'>" ;
-			print $deleteReturnMessage;
-		print "</div>" ;
-	} 
-	
-	//Check if school year specified
-	$staffHandbookEntryID=$_GET["staffHandbookEntryID"];
-	if ($staffHandbookEntryID=="") {
-		print "<div class='error'>" ;
-			print "You have not specified a policy." ;
-		print "</div>" ;
-	}
-	else {
-		try {
-			$data=array("staffHandbookEntryID"=>$staffHandbookEntryID);  
-			$sql="SELECT * FROM staffHandbookEntry WHERE staffHandbookEntryID=:staffHandbookEntryID" ;
-			$result=$connection2->prepare($sql);
-			$result->execute($data);
-		}
-		catch(PDOException $e) { 
-			print "<div class='error'>" . $e->getMessage() . "</div>" ; 
-		}
+if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_manage_delete.php') == false) {
+    //Acess denied
+    echo "<div class='error'>";
+    echo 'You do not have access to this action.';
+    echo '</div>';
+} else {
+    //Proceed!
+    echo "<div class='trail'>";
+    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>Home</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".getModuleName($_GET['q'])."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q'])."/staffHandbook_manage.php'>".__($guid, 'Manage Staff Handbook')."</a> > </div><div class='trailEnd'>".__($guid, 'Delete Staff Hanbook Entry').'</div>';
+    echo '</div>';
 
-		if ($result->rowCount()!=1) {
-			print "<div class='error'>" ;
-				print "The selected policy does not exist." ;
-			print "</div>" ;
-		}
-		else {
-			//Let's go!
-			$row=$result->fetch() ;
-			
-			if ($_GET["search"]!="") {
-				print "<div class='linkTop'>" ;
-					print "<a href='" . $_SESSION[$guid]["absoluteURL"] . "/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php&search=" . $_GET["search"] . "'>Back to Search Results</a>" ;
-				print "</div>" ;
-			}
-			?>
-			<form method="post" action="<?php print $_SESSION[$guid]["absoluteURL"] . "/modules/Staff Handbook/staffHandbook_manage_deleteProcess.php?staffHandbookEntryID=$staffHandbookEntryID&search=" . $_GET["search"] ?>">
-				<table class='smallIntBorder' cellspacing='0' style="width: 100%">	
+    if (isset($_GET['return'])) {
+        returnProcess($guid, $_GET['return'], null, null);
+    }
+
+    //Check if school year specified
+    $staffHandbookEntryID = $_GET['staffHandbookEntryID'];
+    if ($staffHandbookEntryID == '') {
+        echo "<div class='error'>";
+        echo 'You have not specified a policy.';
+        echo '</div>';
+    } else {
+        try {
+            $data = array('staffHandbookEntryID' => $staffHandbookEntryID);
+            $sql = 'SELECT * FROM staffHandbookEntry WHERE staffHandbookEntryID=:staffHandbookEntryID';
+            $result = $connection2->prepare($sql);
+            $result->execute($data);
+        } catch (PDOException $e) {
+            echo "<div class='error'>".$e->getMessage().'</div>';
+        }
+
+        if ($result->rowCount() != 1) {
+            echo "<div class='error'>";
+            echo 'The selected policy does not exist.';
+            echo '</div>';
+        } else {
+            //Let's go!
+            $row = $result->fetch();
+
+            if ($_GET['search'] != '') {
+                echo "<div class='linkTop'>";
+                echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
+                echo '</div>';
+            }
+            ?>
+			<form method="post" action="<?php echo $_SESSION[$guid]['absoluteURL']."/modules/Staff Handbook/staffHandbook_manage_deleteProcess.php?staffHandbookEntryID=$staffHandbookEntryID&search=".$_GET['search'] ?>">
+				<table class='smallIntBorder' cellspacing='0' style="width: 100%">
 					<tr>
-						<td> 
-							<b>Are you sure you want to delete "<?php print $row["title"] ?>" from Staff Handbook?</b><br/>
+						<td>
+							<b>Are you sure you want to delete "<?php echo $row['title'] ?>" from Staff Handbook?</b><br/>
 							<span style="font-size: 90%; color: #cc0000"><i>This operation cannot be undone, and may lead to loss of vital data in your system.<br/>PROCEED WITH CAUTION!</i></span>
 						</td>
 						<td class="right">
-							
+
 						</td>
 					</tr>
 					<tr>
-						<td> 
-							<input name="staffHandbookEntryID" id="staffHandbookEntryID" value="<?php print $staffHandbookEntryID ?>" type="hidden">
-							<input type="hidden" name="address" value="<?php print $_SESSION[$guid]["address"] ?>">
+						<td>
+							<input name="staffHandbookEntryID" id="staffHandbookEntryID" value="<?php echo $staffHandbookEntryID ?>" type="hidden">
+							<input type="hidden" name="address" value="<?php echo $_SESSION[$guid]['address'] ?>">
 							<input type="submit" value="Yes">
 						</td>
 						<td class="right">
-							
+
 						</td>
 					</tr>
 				</table>
 			</form>
 			<?php
-		}
-	}
+
+        }
+    }
 }
 ?>
