@@ -41,8 +41,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
         returnProcess($guid, $_GET['return'], $editLink, $returns);
     }
 
-    if ($_GET['search'] != '') {
-        echo "<div class='linkTop'>";
+    if ($_GET['search'] != '') { echo "<div class='linkTop'>";
         echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
         echo '</div>';
     }

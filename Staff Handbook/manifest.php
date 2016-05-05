@@ -25,7 +25,7 @@ $description = 'Offers a school-defined image-grid set of links to useful resour
 $entryURL = 'staffHandbook_view.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '1.0.04';
+$version = '1.0.05';
 $author = 'Ross Parker';
 $url = 'http://rossparker.org';
 

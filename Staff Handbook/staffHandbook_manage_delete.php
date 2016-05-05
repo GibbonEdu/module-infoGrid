@@ -39,8 +39,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 
     //Check if school year specified
     $staffHandbookEntryID = $_GET['staffHandbookEntryID'];
-    if ($staffHandbookEntryID == '') {
-        echo "<div class='error'>";
+    if ($staffHandbookEntryID == '') { echo "<div class='error'>";
         echo 'You have not specified a policy.';
         echo '</div>';
     } else {

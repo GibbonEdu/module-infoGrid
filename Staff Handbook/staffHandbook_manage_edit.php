@@ -39,8 +39,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 
     //Check if school year specified
     $staffHandbookEntryID = $_GET['staffHandbookEntryID'];
-    if ($staffHandbookEntryID == '') {
-        echo "<div class='error'>";
+    if ($staffHandbookEntryID == '') { echo "<div class='error'>";
         echo 'You have not specified a policy.';
         echo '</div>';
     } else {
@@ -112,18 +111,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 						<td>
 							<b>Logo</b><br/>
 							<span style="font-size: 90%"><i><?php echo __($guid, '240px x 240px').'<br/>' ?>
-							<?php if ($row['logo'] != '') {
-    echo __($guid, 'Will overwrite existing attachment.');
-}
-            ?>
+							<?php if ($row['logo'] != '') { echo __($guid, 'Will overwrite existing attachment.'); } ?>
 							</i></span>
 						</td>
 						<td class="right">
 							<?php
                             if ($row['logo'] != '') {
-                                echo __($guid, 'Current attachment:')." <a target='_blank' href='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'>".$row['logo'].'</a><br/><br/>';
-                            }
-            ?>
+                                echo __($guid, 'Current attachment:')." <a target='_blank' href='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'>".$row['logo'].'</a><br/><br/>'; } ?>
 							<input type="file" name="file" id="file">
 							<script type="text/javascript">
 								var file=new LiveValidation('file');

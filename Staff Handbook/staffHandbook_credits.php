@@ -38,11 +38,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
         $sql = "SELECT * FROM staffHandbookEntry WHERE NOT logoLicense='' ORDER BY title";
         $result = $connection2->prepare($sql);
         $result->execute($data);
-    } catch (PDOException $e) {
-        echo "<div class='error'>".$e->getMessage().'</div>';
+    } catch (PDOException $e) { echo "<div class='error'>".$e->getMessage().'</div>';
     }
-    if ($result->rowCount() < 1) {
-        echo "<div class='error'>";
+    if ($result->rowCount() < 1) { echo "<div class='error'>";
         echo __($guid, 'There are no records to display.');
         echo '</div>';
     } else {

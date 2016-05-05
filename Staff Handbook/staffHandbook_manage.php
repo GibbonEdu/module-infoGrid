@@ -70,8 +70,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 					<input type="hidden" name="q" value="/modules/<?php echo $_SESSION[$guid]['module'] ?>/staffHandbook_manage.php">
 					<input type="hidden" name="address" value="<?php echo $_SESSION[$guid]['address'] ?>">
 					<?php
-                    echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.$_SESSION[$guid]['module']."/staffHandbook_manage.php'>Clear Search</a> ";
-    ?>
+                    echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.$_SESSION[$guid]['module']."/staffHandbook_manage.php'>Clear Search</a> "; ?>
 					<input type="submit" value="Submit">
 				</td>
 			</tr>
@@ -93,16 +92,14 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
         $sqlPage = $sql.' LIMIT '.$_SESSION[$guid]['pagination'].' OFFSET '.(($page - 1) * $_SESSION[$guid]['pagination']);
         $result = $connection2->prepare($sql);
         $result->execute($data);
-    } catch (PDOException $e) {
-        echo "<div class='error'>".$e->getMessage().'</div>';
+    } catch (PDOException $e) { echo "<div class='error'>".$e->getMessage().'</div>';
     }
 
     echo "<div class='linkTop'>";
     echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Staff Handbook/staffHandbook_manage_add.php&search=$search'>".__($guid, 'Add')."<img style='margin-left: 5px' title='".__($guid, 'Add')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/page_new.png'/></a>";
     echo '</div>';
 
-    if ($result->rowCount() < 1) {
-        echo "<div class='error'>";
+    if ($result->rowCount() < 1) { echo "<div class='error'>";
         echo 'There are no records to display.';
         echo '</div>';
     } else {
@@ -142,8 +139,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
             }
             ++$count;
 
-                //COLOR ROW BY STATUS!
-                echo "<tr class=$rowNum>";
+			//COLOR ROW BY STATUS!
+			echo "<tr class=$rowNum>";
             echo '<td>';
             if ($row['logo'] != '') {
                 echo "<img class='user' style='width: 335px; height: 140px' src='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'/>";
