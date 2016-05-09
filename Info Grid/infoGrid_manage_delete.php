@@ -20,9 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @session_start();
 
 //Module includes
-include './modules/Staff Handbook/moduleFunctions.php';
+include './modules/Info Grid/moduleFunctions.php';
 
-if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_manage_delete.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_delete.php') == false) {
     //Acess denied
     echo "<div class='error'>";
     echo 'You do not have access to this action.';
@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 } else {
     //Proceed!
     echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>Home</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".getModuleName($_GET['q'])."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q'])."/staffHandbook_manage.php'>".__($guid, 'Manage Staff Handbook')."</a> > </div><div class='trailEnd'>".__($guid, 'Delete Staff Hanbook Entry').'</div>';
+    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>Home</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".getModuleName($_GET['q'])."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q'])."/infoGrid_manage.php'>".__($guid, 'Manage Info Grid')."</a> > </div><div class='trailEnd'>".__($guid, 'Delete Staff Hanbook Entry').'</div>';
     echo '</div>';
 
     if (isset($_GET['return'])) {
@@ -38,14 +38,14 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
     }
 
     //Check if school year specified
-    $staffHandbookEntryID = $_GET['staffHandbookEntryID'];
-    if ($staffHandbookEntryID == '') { echo "<div class='error'>";
-        echo 'You have not specified a policy.';
+    $infoGridEntryID = $_GET['infoGridEntryID'];
+    if ($infoGridEntryID == '') { echo "<div class='error'>";
+        echo 'You have not specified a record.';
         echo '</div>';
     } else {
         try {
-            $data = array('staffHandbookEntryID' => $staffHandbookEntryID);
-            $sql = 'SELECT * FROM staffHandbookEntry WHERE staffHandbookEntryID=:staffHandbookEntryID';
+            $data = array('infoGridEntryID' => $infoGridEntryID);
+            $sql = 'SELECT * FROM infoGridEntry WHERE infoGridEntryID=:infoGridEntryID';
             $result = $connection2->prepare($sql);
             $result->execute($data);
         } catch (PDOException $e) {
@@ -54,7 +54,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 
         if ($result->rowCount() != 1) {
             echo "<div class='error'>";
-            echo 'The selected policy does not exist.';
+            echo 'The selected recrod does not exist.';
             echo '</div>';
         } else {
             //Let's go!
@@ -62,15 +62,15 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 
             if ($_GET['search'] != '') {
                 echo "<div class='linkTop'>";
-                echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
+                echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
                 echo '</div>';
             }
             ?>
-			<form method="post" action="<?php echo $_SESSION[$guid]['absoluteURL']."/modules/Staff Handbook/staffHandbook_manage_deleteProcess.php?staffHandbookEntryID=$staffHandbookEntryID&search=".$_GET['search'] ?>">
+			<form method="post" action="<?php echo $_SESSION[$guid]['absoluteURL']."/modules/Info Grid/infoGrid_manage_deleteProcess.php?infoGridEntryID=$infoGridEntryID&search=".$_GET['search'] ?>">
 				<table class='smallIntBorder' cellspacing='0' style="width: 100%">
 					<tr>
 						<td>
-							<b>Are you sure you want to delete "<?php echo $row['title'] ?>" from Staff Handbook?</b><br/>
+							<b>Are you sure you want to delete "<?php echo $row['title'] ?>" from Info Grid?</b><br/>
 							<span style="font-size: 90%; color: #cc0000"><i>This operation cannot be undone, and may lead to loss of vital data in your system.<br/>PROCEED WITH CAUTION!</i></span>
 						</td>
 						<td class="right">
@@ -79,7 +79,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 					</tr>
 					<tr>
 						<td>
-							<input name="staffHandbookEntryID" id="staffHandbookEntryID" value="<?php echo $staffHandbookEntryID ?>" type="hidden">
+							<input name="infoGridEntryID" id="infoGridEntryID" value="<?php echo $infoGridEntryID ?>" type="hidden">
 							<input type="hidden" name="address" value="<?php echo $_SESSION[$guid]['address'] ?>">
 							<input type="submit" value="Yes">
 						</td>

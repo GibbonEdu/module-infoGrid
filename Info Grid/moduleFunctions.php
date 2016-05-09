@@ -17,13 +17,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-function getStaffHandbook($connection2, $guid)
+function getInfoGrid($connection2, $guid)
 {
     $output = '';
 
+    //Discover role category
+    $category = strtolower(getRoleCategory($_SESSION[$guid]['gibbonRoleIDCurrent'], $connection2));
+
     try {
         $data = array();
-        $sql = 'SELECT staffHandbookEntry.* FROM staffHandbookEntry ORDER BY priority DESC, title';
+        $sql = 'SELECT infoGridEntry.* FROM infoGridEntry WHERE ' . $category . '=\'Y\' ORDER BY priority DESC, title';
         $result = $connection2->prepare($sql);
         $result->execute($data);
     } catch (PDOException $e) {
@@ -37,9 +40,9 @@ function getStaffHandbook($connection2, $guid)
     } else {
         $count = 0;
 
-        if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_manage.php') == true) {
+        if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php') == true) {
             $output .= "<div class='linkTop'>";
-            $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Staff Handbook/staffHandbook_manage.php'>".__($guid, 'Edit')."<img style='margin: 0 0 -4px 5px' title='".__($guid, 'Edit')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/config.png'/></a> ";
+            $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage.php'>".__($guid, 'Edit')."<img style='margin: 0 0 -4px 5px' title='".__($guid, 'Edit')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/config.png'/></a> ";
             $output .= '</div>';
         }
 
@@ -60,7 +63,7 @@ function getStaffHandbook($connection2, $guid)
             if ($row['logo'] != '') {
                 $output .= "<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'/>";
             } else {
-                $output .= "<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='".$_SESSION[$guid]['absoluteURL']."/modules/Staff Handbook/img/anonymous.jpg'/>";
+                $output .= "<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='".$_SESSION[$guid]['absoluteURL']."/modules/Info Grid/img/anonymous.jpg'/>";
             }
             $output .= $row['title'];
             $output .= '</a>';
@@ -78,6 +81,10 @@ function getStaffHandbook($connection2, $guid)
         }
         $output .= '</table>';
     }
+
+    $output .= "<div class='linkTop'>";
+    $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_credits.php'>".__($guid, 'Credits & Licensing')."</a> ";
+    $output .= '</div>';
 
     return $output;
 }

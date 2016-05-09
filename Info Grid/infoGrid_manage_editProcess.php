@@ -36,24 +36,24 @@ try {
 //Set timezone from session variable
 date_default_timezone_set($_SESSION[$guid]['timezone']);
 
-$staffHandbookEntryID = $_GET['staffHandbookEntryID'];
-$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address'])."/staffHandbook_manage_edit.php&staffHandbookEntryID=$staffHandbookEntryID&search=".$_GET['search'];
+$infoGridEntryID = $_GET['infoGridEntryID'];
+$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address'])."/infoGrid_manage_edit.php&infoGridEntryID=$infoGridEntryID&search=".$_GET['search'];
 
-if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_manage_edit.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_edit.php') == false) {
     //Fail 0
     $URL = $URL.'&return=error0';
     header("Location: {$URL}");
 } else {
     //Proceed!
     //Check if school year specified
-    if ($staffHandbookEntryID == '') {
+    if ($infoGridEntryID == '') {
         //Fail1
         $URL = $URL.'&return=error1';
         header("Location: {$URL}");
     } else {
         try {
-            $data = array('staffHandbookEntryID' => $staffHandbookEntryID);
-            $sql = 'SELECT * FROM staffHandbookEntry WHERE staffHandbookEntryID=:staffHandbookEntryID';
+            $data = array('infoGridEntryID' => $infoGridEntryID);
+            $sql = 'SELECT * FROM infoGridEntry WHERE infoGridEntryID=:infoGridEntryID';
             $result = $connection2->prepare($sql);
             $result->execute($data);
         } catch (PDOException $e) {
@@ -72,11 +72,14 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 
             //Validate Inputs
             $title = $_POST['title'];
+            $staff = $_POST['staff'];
+            $student = $_POST['student'];
+            $parent = $_POST['parent'];
             $priority = $_POST['priority'];
             $url = $_POST['url'];
             $logoLicense = $_POST['logoLicense'];
 
-            if ($title == '' or $priority == '' or $url == '') {
+            if ($title == '' or $staff == '' or $student == '' or $parent == '' or $priority == '' or $url == '') {
                 //Fail 3
                 $URL = $URL.'&return=error3';
                 header("Location: {$URL}");
@@ -96,9 +99,9 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
                     while ($unique == false and $count < 100) {
                         $suffix = randomPassword(16);
                         if ($count == 0) {
-                            $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/staffHandbook_$suffix".strrchr($_FILES['file']['name'], '.');
+                            $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/infoGrid_$suffix".strrchr($_FILES['file']['name'], '.');
                         } else {
-                            $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/staffHandbook_$suffix"."_$count".strrchr($_FILES['file']['name'], '.');
+                            $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/infoGrid_$suffix"."_$count".strrchr($_FILES['file']['name'], '.');
                         }
 
                         if (!(file_exists($path.'/'.$logo))) {
@@ -113,8 +116,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 
                 //Write to database
                 try {
-                    $data = array('title' => $title, 'priority' => $priority, 'url' => $url, 'logo' => $logo, 'logoLicense' => $logoLicense, 'staffHandbookEntryID' => $staffHandbookEntryID);
-                    $sql = 'UPDATE staffHandbookEntry SET title=:title, priority=:priority, url=:url, logo=:logo, logoLicense=:logoLicense WHERE staffHandbookEntryID=:staffHandbookEntryID';
+                    $data = array('title' => $title, 'staff'=>$staff, 'student'=>$student, 'parent'=>$parent, 'priority' => $priority, 'url' => $url, 'logo' => $logo, 'logoLicense' => $logoLicense, 'infoGridEntryID' => $infoGridEntryID);
+                    $sql = 'UPDATE infoGridEntry SET title=:title, staff=:staff, student=:student, parent=:parent, priority=:priority, url=:url, logo=:logo, logoLicense=:logoLicense WHERE infoGridEntryID=:infoGridEntryID';
                     $result = $connection2->prepare($sql);
                     $result->execute($data);
                 } catch (PDOException $e) {

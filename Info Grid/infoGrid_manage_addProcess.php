@@ -36,20 +36,23 @@ try {
 //Set timezone from session variable
 date_default_timezone_set($_SESSION[$guid]['timezone']);
 
-$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address']).'/staffHandbook_manage_add.php&search='.$_GET['search'];
+$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage_add.php&search='.$_GET['search'];
 
-if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_manage_add.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_add.php') == false) {
     //Fail 0
     $URL = $URL.'&return=error0';
     header("Location: {$URL}");
 } else {
     //Proceed!
     $title = $_POST['title'];
+    $staff = $_POST['staff'];
+    $student = $_POST['student'];
+    $parent = $_POST['parent'];
     $priority = $_POST['priority'];
     $url = $_POST['url'];
     $logoLicense = $_POST['logoLicense'];
 
-    if ($title == '' or $priority == '' or $url == '') {
+    if ($title == '' or $staff == '' or $student == '' or $parent == '' or $priority == '' or $url == '') {
         //Fail 3
         $URL = $URL.'&return=error3';
         header("Location: {$URL}");
@@ -68,7 +71,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
             $unique = false;
             while ($unique == false) {
                 $suffix = randomPassword(16);
-                $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/staffHandbook_$suffix".strrchr($_FILES['file']['name'], '.');
+                $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/infoGrid_$suffix".strrchr($_FILES['file']['name'], '.');
                 if (!(file_exists($path.'/'.$logo))) {
                     $unique = true;
                 }
@@ -89,8 +92,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
         } else {
             //Write to database
             try {
-                $data = array('title' => $title, 'priority' => $priority, 'url' => $url, 'logo' => $logo, 'logoLicense' => $logoLicense, 'gibbonPersonIDCreator' => $_SESSION[$guid]['gibbonPersonID'], 'timestampCreated' => date('Y-m-d H:i:s'));
-                $sql = 'INSERT INTO staffHandbookEntry SET title=:title, priority=:priority, url=:url, logo=:logo, logoLicense=:logoLicense, gibbonPersonIDCreator=:gibbonPersonIDCreator, timestampCreated=:timestampCreated';
+                $data = array('title' => $title, 'staff'=>$staff, 'student'=>$student, 'parent'=>$parent, 'priority' => $priority, 'url' => $url, 'logo' => $logo, 'logoLicense' => $logoLicense, 'gibbonPersonIDCreator' => $_SESSION[$guid]['gibbonPersonID'], 'timestampCreated' => date('Y-m-d H:i:s'));
+                $sql = 'INSERT INTO infoGridEntry SET title=:title, staff=:staff, student=:student, parent=:parent, priority=:priority, url=:url, logo=:logo, logoLicense=:logoLicense, gibbonPersonIDCreator=:gibbonPersonIDCreator, timestampCreated=:timestampCreated';
                 $result = $connection2->prepare($sql);
                 $result->execute($data);
             } catch (PDOException $e) {

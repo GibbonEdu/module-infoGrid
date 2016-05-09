@@ -36,24 +36,24 @@ try {
 //Set timezone from session variable
 date_default_timezone_set($_SESSION[$guid]['timezone']);
 
-$staffHandbookEntryID = $_POST['staffHandbookEntryID'];
-$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address'])."/staffHandbook_manage_delete.php&staffHandbookEntryID=$staffHandbookEntryID&search=".$_GET['search'];
-$URLDelete = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address']).'/staffHandbook_manage.php&search='.$_GET['search'];
+$infoGridEntryID = $_POST['infoGridEntryID'];
+$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address'])."/infoGrid_manage_delete.php&infoGridEntryID=$infoGridEntryID&search=".$_GET['search'];
+$URLDelete = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage.php&search='.$_GET['search'];
 
-if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_manage_delete.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_delete.php') == false) {
     //Fail 0
     $URL = $URL.'&return=error0';
     header("Location: {$URL}");
 } else {
     //Proceed!
-    if ($staffHandbookEntryID == '') {
+    if ($infoGridEntryID == '') {
         //Fail1
         $URL = $URL.'&return=error1';
         header("Location: {$URL}");
     } else {
         try {
-            $data = array('staffHandbookEntryID' => $staffHandbookEntryID);
-            $sql = 'SELECT * FROM staffHandbookEntry WHERE staffHandbookEntryID=:staffHandbookEntryID';
+            $data = array('infoGridEntryID' => $infoGridEntryID);
+            $sql = 'SELECT * FROM infoGridEntry WHERE infoGridEntryID=:infoGridEntryID';
             $result = $connection2->prepare($sql);
             $result->execute($data);
         } catch (PDOException $e) {
@@ -70,8 +70,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
         } else {
             //Write to database
             try {
-                $data = array('staffHandbookEntryID' => $staffHandbookEntryID);
-                $sql = 'DELETE FROM staffHandbookEntry WHERE staffHandbookEntryID=:staffHandbookEntryID';
+                $data = array('infoGridEntryID' => $infoGridEntryID);
+                $sql = 'DELETE FROM infoGridEntry WHERE infoGridEntryID=:infoGridEntryID';
                 $result = $connection2->prepare($sql);
                 $result->execute($data);
             } catch (PDOException $e) {

@@ -25,21 +25,21 @@ $returnInt = null;
 $included = false;
 $includes = get_included_files();
 foreach ($includes as $include) {
-    if ($include == $_SESSION[$guid]['absolutePath'].'/modules/Staff Handbook/moduleFunctions.php') {
+    if ($include == $_SESSION[$guid]['absolutePath'].'/modules/Info Grid/moduleFunctions.php') {
         $included = true;
     }
 }
 if ($included == false) {
-    include './modules/Staff Handbook/moduleFunctions.php';
+    include './modules/Info Grid/moduleFunctions.php';
 }
 
-if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_view.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
     $returnInt .= "<div class='error'>";
     $returnInt .= 'You do not have access to this action.';
     $returnInt .= '</div>';
 } else {
-    $returnInt .= getStaffHandbook($connection2, $guid);
+    $returnInt .= getInfoGrid($connection2, $guid);
 }
 
 return $returnInt;

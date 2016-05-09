@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 //Module includes
 include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 
-if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbook_view.php') == false) {
+if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
     echo "<div class='error'>";
     echo __($guid, 'You do not have access to this action.');
@@ -30,23 +30,18 @@ if (isActionAccessible($guid, $connection2, '/modules/Staff Handbook/staffHandbo
 } else {
     //Proceed!
     echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'Credits & Licensing').'</div>';
+    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'View Info Grid').'</div>';
     echo '</div>';
 
-    try {
-        $data = array();
-        $sql = "SELECT * FROM staffHandbookEntry WHERE NOT logoLicense='' ORDER BY title";
-        $result = $connection2->prepare($sql);
-        $result->execute($data);
-    } catch (PDOException $e) { echo "<div class='error'>".$e->getMessage().'</div>';
-    }
-    if ($result->rowCount() < 1) { echo "<div class='error'>";
-        echo __($guid, 'There are no records to display.');
+    //Get action with highest precendence
+    $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
+    if ($highestAction == false) { echo "<div class='error'>";
+        echo __($guid, 'The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
-        while ($row = $result->fetch()) {
-            echo '<h4>'.$row['title'].'</h4>';
-            echo $row['logoLicense'].'<br/>';
-        }
+        echo '<h2>';
+        echo __($guid, 'Info Grid');
+        echo '</h2>';
+        echo getInfoGrid($connection2, $guid);
     }
 }
