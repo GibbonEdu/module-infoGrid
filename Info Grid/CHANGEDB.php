@@ -53,6 +53,9 @@ INSERT INTO `gibbonPermission` (`permissionID` ,`gibbonRoleID` ,`gibbonActionID`
 INSERT INTO `gibbonPermission` (`permissionID` ,`gibbonRoleID` ,`gibbonActionID`) VALUES (NULL , '6', (SELECT gibbonActionID FROM gibbonAction JOIN gibbonModule ON (gibbonAction.gibbonModuleID=gibbonModule.gibbonModuleID) WHERE gibbonModule.name='Info Grid' AND gibbonAction.name='View Info Grid'));end
 UPDATE `gibbonAction` SET menuShow = 'N' WHERE name='View Info Grid' AND gibbonModuleID = (SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end
 UPDATE `gibbonAction` SET menuShow = 'N' WHERE name='Credits & Licenses' AND gibbonModuleID = (SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end
-UPDATE `gibbonAction` SET name = 'Manage Info Grid', category='Info Grid' WHERE name='Manage Staff Handbook' AND gibbonModuleID = (SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end
+UPDATE `gibbonAction` SET name = 'Manage Info Grid', category='Info Grid' WHERE name='Manage Staff Handbook' AND gibbonModuleID = (SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end";
 
-";
+//v2.0.01
+++$count;
+$sql[$count][0] = '2.0.01';
+$sql[$count][1] = '';
