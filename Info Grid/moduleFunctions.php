@@ -62,7 +62,7 @@ function getInfoGrid($connection2, $guid)
             $size = 'width: 335px; height: 140px' ;
             if ($category == 'parent')
                 $size = 'width: 239px; height: 100px' ;
-            $output .= "<a style='font-size: 130%; font-weight: normal; letter-spacing: -0.5px;' href='".$row['url']."' $target>";
+            $output .= "<a style='font-size: 130%; font-weight: normal; letter-spacing: -0.3px;' href='".$row['url']."' $target>";
             if ($row['logo'] != '') {
                 $output .= "<img class='user' style='margin-bottom: 10px; $size' src='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'/>";
             } else {
