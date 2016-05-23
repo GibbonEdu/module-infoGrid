@@ -59,11 +59,14 @@ function getInfoGrid($connection2, $guid)
                 $target = "target='_blank'";
             }
 
+            $size = 'width: 335px; height: 140px' ;
+            if ($category == 'parent')
+                $size = 'width: 239px; height: 100px' ;
             $output .= "<a style='font-size: 150%; font-weight: bold; letter-spacing: -0.5px;' href='".$row['url']."' $target>";
             if ($row['logo'] != '') {
-                $output .= "<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'/>";
+                $output .= "<img class='user' style='margin-bottom: 10px; $size' src='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'/>";
             } else {
-                $output .= "<img class='user' style='margin-bottom: 10px; width: 335px; height: 140px' src='".$_SESSION[$guid]['absoluteURL']."/modules/Info Grid/img/anonymous.jpg'/>";
+                $output .= "<img class='user' style='margin-bottom: 10px; $size' src='".$_SESSION[$guid]['absoluteURL']."/modules/Info Grid/img/anonymous.jpg'/>";
             }
             $output .= $row['title'];
             $output .= '</a>';
