@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v2.0.03
+-------
+More subtle links
+
 v2.0.02
 -------
 Fixed parent grid width issue
