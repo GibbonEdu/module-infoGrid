@@ -81,3 +81,8 @@ $sql[$count][0] = '2.0.05';
 $sql[$count][1] = "
 UPDATE `gibbonAction` SET menuShow = 'N' WHERE name='View Info Grid' AND gibbonModuleID = (SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end
 ";
+
+//v2.0.06
+++$count;
+$sql[$count][0] = '2.0.06';
+$sql[$count][1] = '';

@@ -84,33 +84,21 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                 $URL = $URL.'&return=error3';
                 header("Location: {$URL}");
             } else {
-                //Sort out logo
+                $partialFail = false;
                 $logo = $row['logo'];
-                if ($_FILES['file']['tmp_name'] != '') {
-                    $time = time();
-                    //Check for folder in uploads based on today's date
-                    $path = $_SESSION[$guid]['absolutePath'];
-                    if (is_dir($path.'/uploads/'.date('Y', $time).'/'.date('m', $time)) == false) {
-                        mkdir($path.'/uploads/'.date('Y', $time).'/'.date('m', $time), 0777, true);
-                    }
 
-                    $unique = false;
-                    $count = 0;
-                    while ($unique == false and $count < 100) {
-                        $suffix = randomPassword(16);
-                        if ($count == 0) {
-                            $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/infoGrid_$suffix".strrchr($_FILES['file']['name'], '.');
-                        } else {
-                            $logo = 'uploads/'.date('Y', $time).'/'.date('m', $time)."/infoGrid_$suffix"."_$count".strrchr($_FILES['file']['name'], '.');
-                        }
+                //Move attached image  file, if there is one
+                if (!empty($_FILES['file']['tmp_name'])) {
+                    $fileUploader = new Gibbon\FileUploader($pdo, $gibbon->session);
+                    $fileUploader->getFileExtensions('Graphics/Design');
 
-                        if (!(file_exists($path.'/'.$logo))) {
-                            $unique = true;
-                        }
-                        ++$count;
-                    }
-                    if (!(move_uploaded_file($_FILES['file']['tmp_name'], $path.'/'.$logo))) {
-                        $logo = '';
+                    $file = (isset($_FILES['file']))? $_FILES['file'] : null;
+
+                    // Upload the file, return the /uploads relative path
+                    $logo = $fileUploader->uploadFromPost($file, 'infoGrid');
+
+                    if (empty($logo)) {
+                        $partialFail = true;
                     }
                 }
 
@@ -127,9 +115,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                     exit();
                 }
 
-                //Success 0
-                $URL = $URL.'&return=success0';
-                header("Location: {$URL}");
+                if ($partialFail == true) {
+                    $URL .= '&return=warning1';
+                    header("Location: {$URL}");
+                } else {
+                    $URL .= "&return=success0";
+                    header("Location: {$URL}");
+                }
             }
         }
     }
