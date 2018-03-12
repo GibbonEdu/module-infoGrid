@@ -86,3 +86,8 @@ UPDATE `gibbonAction` SET menuShow = 'N' WHERE name='View Info Grid' AND gibbonM
 ++$count;
 $sql[$count][0] = '2.0.06';
 $sql[$count][1] = '';
+
+//v2.0.07
+++$count;
+$sql[$count][0] = '2.0.07';
+$sql[$count][1] = '';
