@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-@session_start();
+use Gibbon\Forms\Form;
 
 //Module includes
 include './modules/Info Grid/moduleFunctions.php';
@@ -46,114 +46,45 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
         echo '</div>';
     }
 
-    ?>
-	<form method="post" action="<?php echo $_SESSION[$guid]['absoluteURL'].'/modules/Info Grid/infoGrid_manage_addProcess.php?search='.$_GET['search'] ?>" enctype="multipart/form-data">
-		<table class='smallIntBorder' cellspacing='0' style="width: 100%">
-			<tr>
-				<td>
-					<b>Title *</b><br/>
-				</td>
-				<td class="right">
-					<input name="title" id="title" maxlength=100 value="" type="text" style="width: 300px">
-					<script type="text/javascript">
-						var title=new LiveValidation('title');
-						title.add(Validate.Presence);
-					</script>
-				</td>
-			</tr>
-            <tr>
-				<td>
-					<b><?php echo __($guid, "Viewable To Staff?") ?> *</b><br/>
-				</td>
-				<td class="right">
-					<select name="staff" id="staff" class="standardWidth">
-						<option value="Y"><?php echo ynExpander($guid, 'Y') ?></option>
-						<option value="N"><?php echo ynExpander($guid, 'N') ?></option>
-					</select>
-				</td>
-			</tr>
-            <tr>
-				<td>
-					<b><?php echo __($guid, "Viewable To Students?") ?> *</b><br/>
-				</td>
-				<td class="right">
-					<select name="student" id="student" class="standardWidth">
-						<option value="Y"><?php echo ynExpander($guid, 'Y') ?></option>
-						<option value="N"><?php echo ynExpander($guid, 'N') ?></option>
-					</select>
-				</td>
-			</tr>
-            <tr>
-				<td>
-					<b><?php echo __($guid, "Viewable To Parents?") ?> *</b><br/>
-				</td>
-				<td class="right">
-					<select name="parent" id="parent" class="standardWidth">
-						<option value="Y"><?php echo ynExpander($guid, 'Y') ?></option>
-						<option value="N"><?php echo ynExpander($guid, 'N') ?></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b><?php echo __($guid, 'Priority') ?> *</b><br/>
-					<span style="font-size: 90%"><i><?php echo __($guid, 'Higher priorities are displayed first.') ?></i></span>
-				</td>
-				<td class="right">
-					<input name="priority" id="priority" maxlength=2 value="0" type="text" style="width: 300px">
-					<script type="text/javascript">
-						var priority=new LiveValidation('priority');
-						priority.add(Validate.Presence);
-						priority.add(Validate.Numericality);
-					</script>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b><?php echo __($guid, 'Link') ?> *</b><br/>
-				</td>
-				<td class='right'>
-					<input name='url' id='url' maxlength=255 value='' type='text' style='width: 300px'>
-					<script type='text/javascript'>
-						url=new LiveValidation('url');
-						url.add(Validate.Presence);
-						url.add( Validate.Format, { pattern: /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/, failureMessage: 'Must start with http://' } );
-					</script>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b>Logo</b><br/>
-					<span style="font-size: 90%"><i><?php echo __($guid, '335px x 140px') ?></i></span>
-				</td>
-				<td class="right">
-					<input type="file" name="file" id="file">
-					<script type="text/javascript">
-						var file=new LiveValidation('file');
-						file.add( Validate.Inclusion, { within: ['gif','jpg','jpeg','png'], failureMessage: "Illegal file type!", partialMatch: true, caseSensitive: false } );
-					</script>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<b>Logo License/Credits</b><br/>
-				</td>
-				<td class="right">
-					<textarea name='logoLicense' id='logoLicense' rows=5 style='width: 300px'></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<span style="font-size: 90%"><i>* denotes a required field</i></span>
-				</td>
-				<td class="right">
-					<input type="hidden" name="address" value="<?php echo $_SESSION[$guid]['address'] ?>">
-					<input type="submit" value="Submit">
-				</td>
-			</tr>
-		</table>
-	</form>
-	<?php
+    $form = Form::create('action', $_SESSION[$guid]['absoluteURL'].'/modules/Info Grid/infoGrid_manage_addProcess.php?search='.$_GET['search']);
+                
+    $form->addHiddenValue('address', $_SESSION[$guid]['address']);
 
+    $row = $form->addRow();
+        $row->addLabel('title', __('Title'));
+        $row->addTextField('title')->isRequired()->maxLength(100);
+
+    $row = $form->addRow();
+        $row->addLabel('staff', __('Viewable To Staff?'));
+        $row->addYesNo('staff')->isRequired();
+
+    $row = $form->addRow();
+        $row->addLabel('student', __('Viewable To Students?'));
+        $row->addYesNo('student')->isRequired();
+
+    $row = $form->addRow();
+        $row->addLabel('parent', __('Viewable To Parents?'));
+        $row->addYesNo('parent')->isRequired();
+
+    $row = $form->addRow();
+        $row->addLabel('priority', __('Priority'))->description(__('Higher priorities are displayed first.'));
+        $row->addNumber('priority')->maxLength(2)->setValue('0')->isRequired();
+
+    $row = $form->addRow();
+        $row->addLabel('url', __('Link'));
+        $row->addURL('url')->maxLength(255)->isRequired();
+
+    $row = $form->addRow();
+        $row->addLabel('file', __('Logo'))->description(__('335px x 140px'));
+        $row->addFileUpload('file')->accepts('.jpg,.jpeg,.gif,.png');
+
+    $row = $form->addRow();
+        $row->addLabel('logoLicense', __('Logo License/Credits'));
+        $row->addTextArea('logoLicense')->setRows(5);
+
+    $row = $form->addRow();
+        $row->addFooter();
+        $row->addSubmit();
+
+    echo $form->getOutput();
 }
-?>

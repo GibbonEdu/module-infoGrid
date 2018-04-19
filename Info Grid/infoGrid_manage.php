@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-@session_start();
+use Gibbon\Forms\Form;
 
 //Module includes
 include './modules/Info Grid/moduleFunctions.php';
@@ -45,41 +45,28 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         $page = 1;
     }
 
-    $search = null;
-    if (isset($_GET['search'])) {
-        $search = $_GET['search'];
-    }
+    $search = isset($_GET['search'])? $_GET['search'] : '';
 
     echo "<h2 class='top'>";
-    echo 'Search';
+    echo __('Search');
     echo '</h2>';
-    ?>
-	<form method="get" action="<?php echo $_SESSION[$guid]['absoluteURL']?>/index.php">
-		<table class='smallIntBorder' cellspacing='0' style="width: 100%">
-			<tr>
-				<td>
-					<b>Search For</b><br/>
-					<span style="font-size: 90%"><i>Title</i></span>
-				</td>
-				<td class="right">
-					<input name="search" id="search" maxlength=20 value="<?php echo $search ?>" type="text" style="width: 300px">
-				</td>
-			</tr>
-			<tr>
-				<td colspan=2 class="right">
-					<input type="hidden" name="q" value="/modules/<?php echo $_SESSION[$guid]['module'] ?>/infoGrid_manage.php">
-					<input type="hidden" name="address" value="<?php echo $_SESSION[$guid]['address'] ?>">
-					<?php
-                    echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.$_SESSION[$guid]['module']."/infoGrid_manage.php'>Clear Search</a> "; ?>
-					<input type="submit" value="Submit">
-				</td>
-			</tr>
-		</table>
-	</form>
 
-	<?php
+    $form = Form::create('search', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+    $form->setClass('noIntBorder fullWidth');
+
+    $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/infoGrid_manage.php');
+
+    $row = $form->addRow();
+        $row->addLabel('search', __('Search For'))->description(__('Title'));
+        $row->addTextField('search')->setValue($search);
+
+    $row = $form->addRow();
+        $row->addSearchSubmit($gibbon->session, __('Clear Search'));
+
+    echo $form->getOutput();
+
     echo "<h2 class='top'>";
-    echo 'View';
+    echo __('View');
     echo '</h2>';
 
     try {
@@ -174,7 +161,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
             echo '</td>';
             echo '<td>';
             echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage_edit.php&infoGridEntryID='.$row['infoGridEntryID']."&search=$search'><img title='Edit' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/config.png'/></a> ";
-            echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage_delete.php&infoGridEntryID='.$row['infoGridEntryID']."&search=$search'><img title='Delete' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/garbage.png'/></a> ";
+            echo "<a class='thickbox' href='".$_SESSION[$guid]['absoluteURL'].'/fullscreen.php?q=/modules/Info Grid/infoGrid_manage_delete.php&infoGridEntryID='.$row['infoGridEntryID']."&search=$search&width=650&height=135'><img title='Delete' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/garbage.png'/></a> ";
             echo '</td>';
             echo '</tr>';
         }
@@ -185,4 +172,3 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         }
     }
 }
-?>
