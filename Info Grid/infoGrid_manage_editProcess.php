@@ -70,7 +70,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                 header("Location: {$URL}");
             } else {
                 $partialFail = false;
-                $logo = $row['logo'];
+                $logo = $_POST['logo'];
 
                 //Move attached image  file, if there is one
                 if (!empty($_FILES['file']['tmp_name'])) {
