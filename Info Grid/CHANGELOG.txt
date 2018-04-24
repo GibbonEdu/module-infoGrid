@@ -1,12 +1,16 @@
 CHANGELOG
 =========
+v2.1.00
+-------
+Object oriented rewrite and code cleanup
+
 v2.0.07
 -------
 Fixed PHP file include error on the dashboard
 
 v2.0.06
 -------
-Fixed PHP execution vulnerability 
+Fixed PHP execution vulnerability
 
 v2.0.05
 -------
