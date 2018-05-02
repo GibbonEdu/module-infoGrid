@@ -25,7 +25,7 @@ $description = 'Offers school-defined image-grids of links to useful resources, 
 $entryURL = 'infoGrid_manage.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '2.1.00';
+$version = '2.2.00';
 $author = 'Ross Parker';
 $url = 'http://rossparker.org';
 
@@ -43,7 +43,7 @@ $moduleTables[0] = "CREATE TABLE `infoGridEntry` (
   `gibbonPersonIDCreator` int(8) unsigned zerofill NOT NULL,
   `timestampCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`infoGridEntryID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;";
 
 //Action rows
 $actionRows[0]['name'] = 'Manage Info Grid';
