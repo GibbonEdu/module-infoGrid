@@ -22,9 +22,7 @@ include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo __('You do not have access to this action.');
-    echo '</div>';
+    $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
     $page->breadcrumbs->add(__('Credits & Licensing'));
@@ -34,11 +32,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
         $sql = "SELECT * FROM infoGridEntry WHERE NOT logoLicense='' ORDER BY title";
         $result = $connection2->prepare($sql);
         $result->execute($data);
-    } catch (PDOException $e) { echo "<div class='error'>".$e->getMessage().'</div>';
+    } catch (PDOException $e) {
+        $page->addError($e->getMessage());
     }
-    if ($result->rowCount() < 1) { echo "<div class='error'>";
-        echo __('There are no records to display.');
-        echo '</div>';
+    if ($result->rowCount() < 1) {
+        $page->addError(__('There are no records to display.'));
     } else {
         while ($row = $result->fetch()) {
             echo '<h4>'.$row['title'].'</h4>';

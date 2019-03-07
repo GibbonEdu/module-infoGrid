@@ -24,9 +24,7 @@ include './modules/Info Grid/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo 'You do not have access to this action.';
-    echo '</div>';
+    $page->addError(__('You do not have access to this action.'));
 } else {
     $page->breadcrumbs->add(__('Manage Info Grid'));
 
@@ -77,16 +75,16 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         $sqlPage = $sql.' LIMIT '.$_SESSION[$guid]['pagination'].' OFFSET '.(($page - 1) * $_SESSION[$guid]['pagination']);
         $result = $connection2->prepare($sql);
         $result->execute($data);
-    } catch (PDOException $e) { echo "<div class='error'>".$e->getMessage().'</div>';
+    } catch (PDOException $e) {
+        $page->addError($e->getMessage());
     }
 
     echo "<div class='linkTop'>";
     echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage_add.php&search=$search'>".__('Add')."<img style='margin-left: 5px' title='".__('Add')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/page_new.png'/></a>";
     echo '</div>';
 
-    if ($result->rowCount() < 1) { echo "<div class='error'>";
-        echo 'There are no records to display.';
-        echo '</div>';
+    if ($result->rowCount() < 1) {
+        $page->addError(__('There are no records to display.'));
     } else {
         if ($result->rowCount() > $_SESSION[$guid]['pagination']) {
             printPagination($guid, $result->rowCount(), $page, $_SESSION[$guid]['pagination'], 'top', "search=$search");
@@ -123,7 +121,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
             $resultPage = $connection2->prepare($sqlPage);
             $resultPage->execute($data);
         } catch (PDOException $e) {
-            echo "<div class='error'>".$e->getMessage().'</div>';
+            $page->addError($e->getMessage());
         }
         while ($row = $resultPage->fetch()) {
             if ($count % 2 == 0) {

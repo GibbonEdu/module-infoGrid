@@ -24,9 +24,7 @@ include './modules/Info Grid/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_edit.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo 'You do not have access to this action.';
-    echo '</div>';
+    $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
     $page->breadcrumbs->add(__('Manage Info Grid'), 'infoGrid_manage.php');
@@ -38,9 +36,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
     //Check if school year specified
     $infoGridEntryID = $_GET['infoGridEntryID'];
-    if ($infoGridEntryID == '') { echo "<div class='error'>";
-        echo 'You have not specified a record.';
-        echo '</div>';
+    if ($infoGridEntryID == '') {
+        $page->addError(__('You have not specified a record.'));
     } else {
         try {
             $data = array('infoGridEntryID' => $infoGridEntryID);
@@ -48,13 +45,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
             $result = $connection2->prepare($sql);
             $result->execute($data);
         } catch (PDOException $e) {
-            echo "<div class='error'>".$e->getMessage().'</div>';
+            $page->addError($e->getMessage());
         }
 
         if ($result->rowCount() != 1) {
-            echo "<div class='error'>";
-            echo 'The selected record does not exist.';
-            echo '</div>';
+            $page->addError(__('The selected record does not exist.'));
         } else {
             //Let's go!
             $values = $result->fetch();

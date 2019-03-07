@@ -24,9 +24,7 @@ include './modules/Info Grid/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_add.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo 'You do not have access to this action.';
-    echo '</div>';
+    $page->addError(__('You do not have access to this action.'));
 } else {
     $page->breadcrumbs->add(__('Manage Info Grid'), 'infoGrid_manage.php');
     $page->breadcrumbs->add(__('Add Info Grid Entry'));
