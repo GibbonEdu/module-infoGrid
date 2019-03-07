@@ -35,14 +35,14 @@ function getInfoGrid($connection2, $guid)
 
     if ($result->rowCount() < 1) {
         $output .= "<div class='error'>";
-        $output .= __($guid, 'There are no records to display.');
+        $output .= __('There are no records to display.');
         $output .= '</div>';
     } else {
         $count = 0;
 
         if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php') == true) {
             $output .= "<div class='linkTop'>";
-            $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage.php'>".__($guid, 'Edit')."<img style='margin: 0 0 -4px 5px' title='".__($guid, 'Edit')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/config.png'/></a> ";
+            $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage.php'>".__('Edit')."<img style='margin: 0 0 -4px 5px' title='".__('Edit')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/config.png'/></a> ";
             $output .= '</div>';
         }
 
@@ -86,7 +86,7 @@ function getInfoGrid($connection2, $guid)
     }
 
     $output .= "<div class='linkTop'>";
-    $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_credits.php'>".__($guid, 'Credits & Licensing')."</a> ";
+    $output .= "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_credits.php'>".__('Credits & Licensing')."</a> ";
     $output .= '</div>';
 
     return $output;

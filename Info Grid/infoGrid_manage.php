@@ -83,7 +83,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
     }
 
     echo "<div class='linkTop'>";
-    echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage_add.php&search=$search'>".__($guid, 'Add')."<img style='margin-left: 5px' title='".__($guid, 'Add')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/page_new.png'/></a>";
+    echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage_add.php&search=$search'>".__('Add')."<img style='margin-left: 5px' title='".__('Add')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/page_new.png'/></a>";
     echo '</div>';
 
     if ($result->rowCount() < 1) { echo "<div class='error'>";
@@ -97,7 +97,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         echo "<table cellspacing='0' style='width: 100%'>";
         echo "<tr class='head'>";
         echo "<th style='width: 180px'>";
-        echo __($guid, 'Logo');
+        echo __('Logo');
         echo '</th>';
         echo '<th>';
         echo 'Name<br/>';
