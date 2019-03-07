@@ -28,9 +28,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     echo 'You do not have access to this action.';
     echo '</div>';
 } else {
-    echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>Home</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".getModuleName($_GET['q'])."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q'])."/infoGrid_manage.php'>".__('Manage Info Grid')."</a> > </div><div class='trailEnd'>".__('Add Info Grid Entry').'</div>';
-    echo '</div>';
+    $page->breadcrumbs->add(__('Manage Info Grid'), 'infoGrid_manage.php');
+    $page->breadcrumbs->add(__('Add Info Grid Entry'));
 
     $returns = array();
     $editLink = '';
@@ -47,7 +46,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     }
 
     $form = Form::create('action', $_SESSION[$guid]['absoluteURL'].'/modules/Info Grid/infoGrid_manage_addProcess.php?search='.$_GET['search']);
-                
+
     $form->addHiddenValue('address', $_SESSION[$guid]['address']);
 
     $row = $form->addRow();
