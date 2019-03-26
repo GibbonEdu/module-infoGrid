@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v2.2.01
+-------
+Refactored breadcrumbs 
+Requires Gibbon v17.0.00
+
 v2.2.00
 -------
 Updated default database storage engine to InnoDB
