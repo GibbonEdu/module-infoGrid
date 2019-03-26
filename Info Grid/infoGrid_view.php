@@ -22,23 +22,18 @@ include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo __($guid, 'You do not have access to this action.');
-    echo '</div>';
+    $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
-    echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'View Info Grid').'</div>';
-    echo '</div>';
+    $page->breadcrumbs->add(__('View Info Grid'));
 
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
-    if ($highestAction == false) { echo "<div class='error'>";
-        echo __($guid, 'The highest grouped action cannot be determined.');
-        echo '</div>';
+    if ($highestAction == false) {
+        $page->addError(__('The highest grouped action cannot be determined.'));
     } else {
         echo '<h2>';
-        echo __($guid, 'Info Grid');
+        echo __('Info Grid');
         echo '</h2>';
         echo getInfoGrid($connection2, $guid);
     }

@@ -22,25 +22,21 @@ include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo __($guid, 'You do not have access to this action.');
-    echo '</div>';
+    $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
-    echo "<div class='trail'>";
-    echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'Credits & Licensing').'</div>';
-    echo '</div>';
+    $page->breadcrumbs->add(__('Credits & Licensing'));
 
     try {
         $data = array();
         $sql = "SELECT * FROM infoGridEntry WHERE NOT logoLicense='' ORDER BY title";
         $result = $connection2->prepare($sql);
         $result->execute($data);
-    } catch (PDOException $e) { echo "<div class='error'>".$e->getMessage().'</div>';
+    } catch (PDOException $e) {
+        $page->addError($e->getMessage());
     }
-    if ($result->rowCount() < 1) { echo "<div class='error'>";
-        echo __($guid, 'There are no records to display.');
-        echo '</div>';
+    if ($result->rowCount() < 1) {
+        $page->addError(__('There are no records to display.'));
     } else {
         while ($row = $result->fetch()) {
             echo '<h4>'.$row['title'].'</h4>';
