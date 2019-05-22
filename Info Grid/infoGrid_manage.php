@@ -18,9 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 use Gibbon\Forms\Form;
+use Gibbon\Tables\DataTable;
+use Gibbon\Services\Format;
+use Gibbon\Domain\InfoGrid\InfoGridGateway;
 
 //Module includes
 include './modules/Info Grid/moduleFunctions.php';
+
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php') == false) {
     //Acess denied
@@ -33,12 +37,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
     }
 
     //Set pagination variable
-    $page = null;
+    $currentPage = null;
     if (isset($_GET['page'])) {
-        $page = $_GET['page'];
+        $currentPage = $_GET['page'];
     }
     if ((!is_numeric($page)) or $page < 1) {
-        $page = 1;
+        $currentPage = 1;
     }
 
     $search = isset($_GET['search'])? $_GET['search'] : '';
@@ -72,7 +76,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
             $data = array('search1' => "%$search%");
             $sql = 'SELECT infoGridEntry.* FROM infoGridEntry WHERE infoGridEntry.title LIKE :search1 ORDER BY priority DESC, title';
         }
-        $sqlPage = $sql.' LIMIT '.$_SESSION[$guid]['pagination'].' OFFSET '.(($page - 1) * $_SESSION[$guid]['pagination']);
+        $sqlPage = $sql.' LIMIT '.$_SESSION[$guid]['pagination'].' OFFSET '.(($currentPage - 1) * $_SESSION[$guid]['pagination']);
         $result = $connection2->prepare($sql);
         $result->execute($data);
     } catch (PDOException $e) {
@@ -87,7 +91,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         $page->addError(__('There are no records to display.'));
     } else {
         if ($result->rowCount() > $_SESSION[$guid]['pagination']) {
-            printPagination($guid, $result->rowCount(), $page, $_SESSION[$guid]['pagination'], 'top', "search=$search");
+            printPagination($guid, $result->rowCount(), $currentPage, $_SESSION[$guid]['pagination'], 'top', "search=$search");
         }
 
         echo "<table cellspacing='0' style='width: 100%'>";
@@ -164,7 +168,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         echo '</table>';
 
         if ($result->rowCount() > $_SESSION[$guid]['pagination']) {
-            printPagination($guid, $result->rowCount(), $page, $_SESSION[$guid]['pagination'], 'bottom', "search=$search");
+            printPagination($guid, $result->rowCount(), $currentPage, $_SESSION[$guid]['pagination'], 'bottom', "search=$search");
         }
     }
+
+    //$igGateway = $container->get(InfoGridGateway::class);
+    //$table = DataTable::createPaginated('infogrid',$criteria);
 }
