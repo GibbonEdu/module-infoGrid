@@ -27,7 +27,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     $returnInt .= 'You do not have access to this action.';
     $returnInt .= '</div>';
 } else {
-    $returnInt .= getInfoGrid($connection2, $guid);
+    $returnInt .= getInfoGrid($container,$connection2, $guid);
 }
 
 return $returnInt;
