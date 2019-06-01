@@ -18,9 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 use Gibbon\Forms\Form;
+use Gibbon\Tables\DataTable;
+use Gibbon\Services\Format;
+use Gibbon\Module\InfoGrid\Domain\InfoGridGateway;
 
 //Module includes
 include './modules/Info Grid/moduleFunctions.php';
+
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php') == false) {
     //Acess denied
@@ -33,12 +37,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
     }
 
     //Set pagination variable
-    $page = null;
+    $currentPage = null;
     if (isset($_GET['page'])) {
-        $page = $_GET['page'];
+        $currentPage = $_GET['page'];
     }
     if ((!is_numeric($page)) or $page < 1) {
-        $page = 1;
+        $currentPage = 1;
     }
 
     $search = isset($_GET['search'])? $_GET['search'] : '';
@@ -65,106 +69,42 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
     echo __('View');
     echo '</h2>';
 
-    try {
-        $data = array();
-        $sql = 'SELECT infoGridEntry.* FROM infoGridEntry ORDER BY priority DESC, title';
-        if ($search != '') {
-            $data = array('search1' => "%$search%");
-            $sql = 'SELECT infoGridEntry.* FROM infoGridEntry WHERE infoGridEntry.title LIKE :search1 ORDER BY priority DESC, title';
-        }
-        $sqlPage = $sql.' LIMIT '.$_SESSION[$guid]['pagination'].' OFFSET '.(($page - 1) * $_SESSION[$guid]['pagination']);
-        $result = $connection2->prepare($sql);
-        $result->execute($data);
-    } catch (PDOException $e) {
-        $page->addError($e->getMessage());
-    }
+    $igGateway = $container->get(InfoGridGateway::class);
+    $criteria = $igGateway->newQueryCriteria()
+        ->searchBy('i.title',$_GET['search'] ?? '')
+        ->fromPost();
+        
+    $igrid = $igGateway->queryInfoGrid($criteria);
 
-    echo "<div class='linkTop'>";
-    echo "<a href='".$_SESSION[$guid]['absoluteURL']."/index.php?q=/modules/Info Grid/infoGrid_manage_add.php&search=$search'>".__('Add')."<img style='margin-left: 5px' title='".__('Add')."' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/page_new.png'/></a>";
-    echo '</div>';
+    $table = DataTable::createPaginated('infogrid',$criteria);
+    $table
+        ->addHeaderAction('add',__('Add'))
+        ->setURL('/modules/Info Grid/infoGrid_manage_add.php')
+        ->addParam('search',$_GET['search'] ?? '');
 
-    if ($result->rowCount() < 1) {
-        $page->addError(__('There are no records to display.'));
-    } else {
-        if ($result->rowCount() > $_SESSION[$guid]['pagination']) {
-            printPagination($guid, $result->rowCount(), $page, $_SESSION[$guid]['pagination'], 'top', "search=$search");
-        }
+    $table->addColumn('logo',__('Logo'))
+        ->width('100px')
+        ->format(Format::using('userPhoto',[
+            'logo',
+            75
+        ]));
+    $table->addColumn('title',__('Name'))->format(Format::using('link',['url','title']));
+    $table->addColumn('staff',__('Staff'))->format(Format::using('yesNo',['staff']));
+    $table->addColumn('student',__('Student'))->format(Format::using('yesNo',['student']));
+    $table->addColumn('parent',__('Parent'))->format(Format::using('yesNo',['parent']));
+    $table->addColumn('priority',__('Priority'));
 
-        echo "<table cellspacing='0' style='width: 100%'>";
-        echo "<tr class='head'>";
-        echo "<th style='width: 180px'>";
-        echo __('Logo');
-        echo '</th>';
-        echo '<th>';
-        echo 'Name<br/>';
-        echo '</th>';
-        echo '<th>';
-        echo 'Staff<br/>';
-        echo '</th>';
-        echo '<th>';
-        echo 'Student<br/>';
-        echo '</th>';
-        echo '<th>';
-        echo 'Parent<br/>';
-        echo '</th>';
-        echo '<th>';
-        echo 'Priority<br/>';
-        echo '</th>';
-        echo "<th style='width: 120px'>";
-        echo 'Actions';
-        echo '</th>';
-        echo '</tr>';
+    $actions = $table->addActionColumn()
+        ->addParam('infoGridEntryID')
+        ->addParam('search',$_GET['search'] ?? '');
+    $actions
+        ->addAction('edit','Edit')
+        ->setURL('/modules/Info Grid/infoGrid_manage_edit.php');
+        
+    $actions
+        ->addAction('delete','Delete')
+        ->setURL('/modules/Info Grid/infoGrid_manage_delete.php');
 
-        $count = 0;
-        $rowNum = 'odd';
-        try {
-            $resultPage = $connection2->prepare($sqlPage);
-            $resultPage->execute($data);
-        } catch (PDOException $e) {
-            $page->addError($e->getMessage());
-        }
-        while ($row = $resultPage->fetch()) {
-            if ($count % 2 == 0) {
-                $rowNum = 'even';
-            } else {
-                $rowNum = 'odd';
-            }
-            ++$count;
+    echo $table->render($igrid);
 
-			//COLOR ROW BY STATUS!
-			echo "<tr class=$rowNum>";
-            echo '<td>';
-            if ($row['logo'] != '') {
-                echo "<img class='user' style='width: 168px; height: 70px' src='".$_SESSION[$guid]['absoluteURL'].'/'.$row['logo']."'/>";
-            } else {
-                echo "<img class='user' style='width: 168px; height: 70px' src='".$_SESSION[$guid]['absoluteURL']."/modules/Info Grid/img/anonymous.jpg'/>";
-            }
-            echo '</td>';
-            echo '<td>';
-            echo "<a href='".$row['url']."'>".$row['title'].'</a>';
-            echo '</td>';
-            echo '<td>';
-            echo ynExpander($guid, $row['staff']);
-            echo '</td>';
-            echo '<td>';
-            echo ynExpander($guid, $row['student']);
-            echo '</td>';
-            echo '<td>';
-            echo ynExpander($guid, $row['parent']);
-            echo '</td>';
-            echo '<td>';
-            echo $row['priority'];
-            echo '</td>';
-            echo '<td>';
-            echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage_edit.php&infoGridEntryID='.$row['infoGridEntryID']."&search=$search'><img title='Edit' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/config.png'/></a> ";
-            echo "<a class='thickbox' href='".$_SESSION[$guid]['absoluteURL'].'/fullscreen.php?q=/modules/Info Grid/infoGrid_manage_delete.php&infoGridEntryID='.$row['infoGridEntryID']."&search=$search&width=650&height=135'><img title='Delete' src='./themes/".$_SESSION[$guid]['gibbonThemeName']."/img/garbage.png'/></a> ";
-            echo '</td>';
-            echo '</tr>';
-        }
-        echo '</table>';
-
-        if ($result->rowCount() > $_SESSION[$guid]['pagination']) {
-            printPagination($guid, $result->rowCount(), $page, $_SESSION[$guid]['pagination'], 'bottom', "search=$search");
-        }
-    }
 }

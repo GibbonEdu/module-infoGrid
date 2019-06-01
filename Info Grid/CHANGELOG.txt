@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v2.2.02
+-------
+OOified the manage table
+Now using Domain for SQL queries on the table
+
 v2.2.01
 -------
 Refactored breadcrumbs 
