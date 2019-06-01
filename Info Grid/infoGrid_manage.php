@@ -36,22 +36,10 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
         returnProcess($guid, $_GET['return'], null, null);
     }
 
-    //Set pagination variable
-    $currentPage = null;
-    if (isset($_GET['page'])) {
-        $currentPage = $_GET['page'];
-    }
-    if ((!is_numeric($page)) or $page < 1) {
-        $currentPage = 1;
-    }
-
     $search = isset($_GET['search'])? $_GET['search'] : '';
 
-    echo "<h2 class='top'>";
-    echo __('Search');
-    echo '</h2>';
-
     $form = Form::create('search', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+    $form->setTitle(__('Search'));
     $form->setClass('noIntBorder fullWidth');
 
     $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/infoGrid_manage.php');
@@ -65,46 +53,45 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
 
     echo $form->getOutput();
 
-    echo "<h2 class='top'>";
-    echo __('View');
-    echo '</h2>';
-
     $igGateway = $container->get(InfoGridGateway::class);
     $criteria = $igGateway->newQueryCriteria()
-        ->searchBy('i.title',$_GET['search'] ?? '')
+        ->searchBy('i.title', $_GET['search'] ?? '')
         ->fromPost();
         
     $igrid = $igGateway->queryInfoGrid($criteria);
 
-    $table = DataTable::createPaginated('infogrid',$criteria);
-    $table
-        ->addHeaderAction('add',__('Add'))
-        ->setURL('/modules/Info Grid/infoGrid_manage_add.php')
-        ->addParam('search',$_GET['search'] ?? '');
+    $table = DataTable::createPaginated('infogrid', $criteria);
+    $table->setTitle(__('View'));
 
-    $table->addColumn('logo',__('Logo'))
+    $table
+        ->addHeaderAction('add', __('Add'))
+        ->setURL('/modules/Info Grid/infoGrid_manage_add.php')
+        ->addParam('search', $_GET['search'] ?? '')
+        ->displayLabel();
+
+    $table->addColumn('logo', __('Logo'))
         ->width('100px')
-        ->format(Format::using('userPhoto',[
+        ->format(Format::using('userPhoto', [
             'logo',
             75
         ]));
-    $table->addColumn('title',__('Name'))->format(Format::using('link',['url','title']));
-    $table->addColumn('staff',__('Staff'))->format(Format::using('yesNo',['staff']));
-    $table->addColumn('student',__('Student'))->format(Format::using('yesNo',['student']));
-    $table->addColumn('parent',__('Parent'))->format(Format::using('yesNo',['parent']));
-    $table->addColumn('priority',__('Priority'));
+
+    $table->addColumn('title', __('Name'))->format(Format::using('link', ['url','title']));
+    $table->addColumn('staff', __('Staff'))->format(Format::using('yesNo', ['staff']));
+    $table->addColumn('student', __('Student'))->format(Format::using('yesNo', ['student']));
+    $table->addColumn('parent', __('Parent'))->format(Format::using('yesNo', ['parent']));
+    $table->addColumn('priority', __('Priority'));
 
     $actions = $table->addActionColumn()
         ->addParam('infoGridEntryID')
-        ->addParam('search',$_GET['search'] ?? '');
+        ->addParam('search', $_GET['search'] ?? '');
     $actions
-        ->addAction('edit','Edit')
+        ->addAction('edit', 'Edit')
         ->setURL('/modules/Info Grid/infoGrid_manage_edit.php');
         
     $actions
-        ->addAction('delete','Delete')
+        ->addAction('delete', 'Delete')
         ->setURL('/modules/Info Grid/infoGrid_manage_delete.php');
 
     echo $table->render($igrid);
-
 }

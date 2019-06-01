@@ -37,7 +37,57 @@ class InfoGridGateway extends QueryableGateway
 
     private static $searchableColumns = ['i.title'];
 
-    private function getDefaultTableQuery(){
+    public function queryInfoGrid(QueryCriteria $criteria)
+    {
+        $query = $this->getDefaultTableQuery();
+
+        $criteria->addFilterRules($this->getSharedQueryFilters());
+
+        return $this->runQuery($query, $criteria);
+    }
+
+    public function queryInfoGridCreator(QueryCriteria $criteria)
+    {
+        $query = $this->getDefaultTableQuery()
+            ->innerJoin('gibbonPerson p on p.gibbonPersonID = i.gibbonPersonIDCreator');
+        
+        $query->cols([
+            'p.title as creatorTitle',
+            'p.surname as creatorSurname',
+            'p.firstname as creatorFirstname',
+            'p.preferredName as creatorPreferredName',
+            'p.officialName as creatorOfficialName'
+        ]);
+        
+        $criteria->addFilterRules($this->getSharedQueryFilters());
+        
+        return $this->runQuery($query, $criteria);
+    }
+
+    private function getSharedQueryFilters()
+    {
+        return [
+            'isStaff' => function ($query, $needle) {
+                return $query->where("i.staff = :staffEnum")
+                    ->bindValue('staffEnum', $needle);
+            },
+            'isStudent' => function ($query, $needle) {
+                return $query->where("i.student = :studentEnum")
+                    ->bindValue('studentEnum', $needle);
+            },
+            'isParent' => function ($query, $needle) {
+                return $query->where("i.staff = :parentEnum")
+                    ->bindValue('parentEnum', $needle);
+            },
+            'creator' => function ($query, $needle) {
+                return $query->where("i.gibbonPersonIDCreator = :creatorID")
+                    ->bindValue('creatorID', $needle);
+            },
+        ];
+    }
+    
+    private function getDefaultTableQuery()
+    {
         return $this
             ->newQuery()
             ->from($this->getTableName(). ' as i')
@@ -55,75 +105,4 @@ class InfoGridGateway extends QueryableGateway
                 'i.timestampCreated as timestampCreated'
             ]);
     }
-
-    public function queryInfoGrid(QueryCriteria $criteria)
-    {
-        $query = $this->getDefaultTableQuery();
-
-        $criteria->addFilterRules([
-            'isStaff' => function($query,$needle = true)
-            {
-                return $query->where("i.staff = :staffEnum")
-                    ->bindValue('staffEnum',$needle == true ? true : false);
-            },
-            'isStudent' => function($query,$needle = true)
-            {
-                return $query->where("i.student = :studentEnum")
-                    ->bindValue('studentEnum',$needle == true ? true : false);
-            },
-            'isParent' => function($query,$needle = true)
-            {
-                return $query->where("i.staff = :parentEnum")
-                    ->bindValue('parentEnum',$needle == true ? true : false);
-            },
-            'creator' => function($query,$needle)
-            {
-                return $query->where("i.gibbonPersonIDCreator = :creatorID")
-                    ->bindValue('creatorID',$needle);
-            }
-        ]);
-
-        return $this->runQuery($query,$criteria);
-    }
-
-    public function queryInfoGridCreator(QueryCriteria $criteria)
-    {
-        $query = $this->getDefaultTableQuery()
-            ->innerJoin('gibbonPerson p on p.gibbonPersonID = i.gibbonPersonIDCreator');
-        
-        $query->cols(
-            'p.title as creatorTitle',
-            'p.surname as creatorSurname',
-            'p.firstname as creatorFirstname',
-            'p.preferredName as creatorPreferredName',
-            'p.officialName as creatorOfficialName'
-        );
-        
-        $criteria->addFilterRules([
-            'isStaff' => function($query,$needle = true)
-            {
-                return $query->where("i.staff = :staffEnum")
-                    ->bindValue('staffEnum',$needle == true ? true : false);
-            },
-            'isStudent' => function($query,$needle = true)
-            {
-                return $query->where("i.student = :studentEnum")
-                    ->bindValue('studentEnum',$needle == true ? true : false);
-            },
-            'isParent' => function($query,$needle = true)
-            {
-                return $query->where("i.staff = :parentEnum")
-                    ->bindValue('parentEnum',$needle == true ? true : false);
-            },
-            'creator' => function($query,$needle)
-            {
-                return $query->where("i.gibbonPersonIDCreator = :creatorID")
-                    ->bindValue('creatorID',$needle);
-            },
-            'creatorName'
-        ]);
-        return $this->runQuery($query,$criteria);
-    }
-    
-    
 }
