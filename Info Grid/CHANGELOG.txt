@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v2.2.03
+-------
+Fixed the delete action in Manage Info Grid
+
 v2.2.02
 -------
 OOified the manage table
