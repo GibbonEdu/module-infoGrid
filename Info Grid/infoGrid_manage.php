@@ -84,14 +84,16 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
 
     $actions = $table->addActionColumn()
         ->addParam('infoGridEntryID')
-        ->addParam('search', $_GET['search'] ?? '');
-    $actions
-        ->addAction('edit', 'Edit')
-        ->setURL('/modules/Info Grid/infoGrid_manage_edit.php');
-        
-    $actions
-        ->addAction('delete', 'Delete')
-        ->setURL('/modules/Info Grid/infoGrid_manage_delete.php');
+        ->addParam('search', $_GET['search'] ?? '')
+        ->format(function ($infoGridItem, $actions) {
+            $actions
+                ->addAction('edit', 'Edit')
+                ->setURL('/modules/Info Grid/infoGrid_manage_edit.php');
+
+            $actions
+                ->addAction('delete', 'Delete')
+                ->setURL('/modules/Info Grid/infoGrid_manage_delete.php');
+        });
 
     echo $table->render($igrid);
 }
