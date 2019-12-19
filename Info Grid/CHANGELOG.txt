@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v2.2.04
+-------
+Tweaked parent link display issue
+
 v2.2.03
 -------
 Fixed the delete action in Manage Info Grid
@@ -11,7 +15,7 @@ Now using Domain for SQL queries on the table
 
 v2.2.01
 -------
-Refactored breadcrumbs 
+Refactored breadcrumbs
 Requires Gibbon v17.0.00
 
 v2.2.00

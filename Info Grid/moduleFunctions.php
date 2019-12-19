@@ -68,7 +68,7 @@ function getInfoGrid($connection2, $guid)
             } else {
                 $output .= "<img class='user' style='margin-bottom: 10px; $size' src='".$_SESSION[$guid]['absoluteURL']."/modules/Info Grid/img/anonymous.jpg'/>";
             }
-            $output .= $row['title'];
+            $output .= "<br/>".$row['title'];
             $output .= '</a>';
             $output .= '</div>';
             $output .= '</td>';
