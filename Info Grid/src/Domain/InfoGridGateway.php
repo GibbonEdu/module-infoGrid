@@ -76,7 +76,7 @@ class InfoGridGateway extends QueryableGateway
                     ->bindValue('studentEnum', $needle);
             },
             'isParent' => function ($query, $needle) {
-                return $query->where("i.staff = :parentEnum")
+                return $query->where("i.parent = :parentEnum")
                     ->bindValue('parentEnum', $needle);
             },
             'creator' => function ($query, $needle) {

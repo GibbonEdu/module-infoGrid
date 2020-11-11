@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-$returnInt = null;
+use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 
-include_once './modules/Info Grid/moduleFunctions.php';
+$returnInt = null;
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
@@ -27,7 +27,15 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     $returnInt .= 'You do not have access to this action.';
     $returnInt .= '</div>';
 } else {
-    $returnInt .= getInfoGrid($connection2, $guid);
+    // Add the module manually to autoloader because it's hooked from the dashboard
+    global $container, $autoloader;
+    $autoloader->addPsr4('Gibbon\\Module\\InfoGrid\\', realpath(__DIR__).'/src');
+
+    $roleCategory = getRoleCategory($_SESSION[$guid]['gibbonRoleIDCurrent'], $connection2);
+    $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
+
+    $table = $container->get(InfoGrid::class)->create($roleCategory, $canManage);
+    $returnInt .= $table->getOutput();
 }
 
 return $returnInt;

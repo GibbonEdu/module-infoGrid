@@ -17,8 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-//Module includes
-include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
+use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     //Acess denied
@@ -32,9 +31,12 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     if ($highestAction == false) {
         $page->addError(__('The highest grouped action cannot be determined.'));
     } else {
-        echo '<h2>';
-        echo __('Info Grid');
-        echo '</h2>';
-        echo getInfoGrid($connection2, $guid);
+        $roleCategory = getRoleCategory($_SESSION[$guid]['gibbonRoleIDCurrent'], $connection2);
+        $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
+
+        $table = $container->get(InfoGrid::class)->create($roleCategory, $canManage);
+        $table->setTitle(__('Info Grid'));
+
+        echo $table->getOutput();
     }
 }
