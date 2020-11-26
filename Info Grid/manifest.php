@@ -25,7 +25,7 @@ $description = 'Offers school-defined image-grids of links to useful resources, 
 $entryURL = 'infoGrid_manage.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '2.2.04';
+$version = '2.3.00';
 $author = 'Ross Parker';
 $url = 'http://rossparker.org';
 
