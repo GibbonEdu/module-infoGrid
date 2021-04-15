@@ -27,8 +27,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
-    $page->breadcrumbs->add(__('Manage Info Grid'), 'infoGrid_manage.php');
-    $page->breadcrumbs->add(__('Edit Info Grid Entry'));
+    $page->breadcrumbs->add(__m('Manage Info Grid'), 'infoGrid_manage.php');
+    $page->breadcrumbs->add(__m('Edit Info Grid Entry'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);
@@ -69,19 +69,19 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                 $row->addTextField('title')->isRequired()->maxLength(100);
 
             $row = $form->addRow();
-                $row->addLabel('staff', __('Viewable To Staff?'));
+                $row->addLabel('staff', __('Viewable To Staff'));
                 $row->addYesNo('staff')->isRequired();
 
             $row = $form->addRow();
-                $row->addLabel('student', __('Viewable To Students?'));
+                $row->addLabel('student', __('Viewable To Students'));
                 $row->addYesNo('student')->isRequired();
 
             $row = $form->addRow();
-                $row->addLabel('parent', __('Viewable To Parents?'));
+                $row->addLabel('parent', __('Viewable To Parents'));
                 $row->addYesNo('parent')->isRequired();
 
             $row = $form->addRow();
-                $row->addLabel('priority', __('Priority'))->description(__('Higher priorities are displayed first.'));
+                $row->addLabel('priority', __('Priority'))->description(__m('Higher priorities are displayed first.'));
                 $row->addNumber('priority')->maxLength(2)->setValue('0')->isRequired();
 
             $row = $form->addRow();
@@ -95,7 +95,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                     ->setAttachment('logo', $_SESSION[$guid]['absoluteURL'], $values['logo']);
 
             $row = $form->addRow();
-                $row->addLabel('logoLicense', __('Logo License/Credits'));
+                $row->addLabel('logoLicense', __m('Logo License/Credits'));
                 $row->addTextArea('logoLicense')->setRows(5);
 
             $row = $form->addRow();

@@ -126,3 +126,11 @@ $sql[$count][1] = '';
 ++$count;
 $sql[$count][0] = '2.3.00';
 $sql[$count][1] = '';
+
+//v2.3.01
+++$count;
+$sql[$count][0] = '2.3.01';
+$sql[$count][1] = "
+UPDATE gibbonAction SET description='Allows a user to define and edit entries in the Info Grid.' WHERE name='Manage Info Grid' AND gibbonModuleID=(SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end
+";
+

@@ -27,8 +27,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
-    $page->breadcrumbs->add(__('Manage Info Grid'), 'infoGrid_manage.php');
-    $page->breadcrumbs->add(__('Delete Staff Hanbook Entry'));
+    $page->breadcrumbs->add(__m('Manage Info Grid'), 'infoGrid_manage.php');
+    $page->breadcrumbs->add(__m('Delete Staff Hanbook Entry'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);

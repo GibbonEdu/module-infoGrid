@@ -24,7 +24,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
-    $page->breadcrumbs->add(__('View Info Grid'));
+    $page->breadcrumbs->add(__m('View Info Grid'));
 
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);

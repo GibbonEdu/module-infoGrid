@@ -25,7 +25,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     $page->addError(__('You do not have access to this action.'));
 } else {
     //Proceed!
-    $page->breadcrumbs->add(__('Credits & Licensing'));
+    $page->breadcrumbs->add(__m('Credits & Licensing'));
 
     try {
         $data = array();

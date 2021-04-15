@@ -30,7 +30,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
     //Acess denied
     $page->addError(__('You do not have access to this action.'));
 } else {
-    $page->breadcrumbs->add(__('Manage Info Grid'));
+    $page->breadcrumbs->add(__m('Manage Info Grid'));
 
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], null, null);

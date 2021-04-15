@@ -25,7 +25,7 @@ $description = 'Offers school-defined image-grids of links to useful resources, 
 $entryURL = 'infoGrid_manage.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '2.3.00';
+$version = '2.3.01';
 $author = 'Ross Parker';
 $url = 'http://rossparker.org';
 
@@ -49,7 +49,7 @@ $moduleTables[0] = "CREATE TABLE `infoGridEntry` (
 $actionRows[0]['name'] = 'Manage Info Grid';
 $actionRows[0]['precedence'] = '0';
 $actionRows[0]['category'] = 'Info Grid';
-$actionRows[0]['description'] = 'Allows a user to define and edit entires in the Info Grid.';
+$actionRows[0]['description'] = 'Allows a user to define and edit entries in the Info Grid.';
 $actionRows[0]['URLList'] = 'infoGrid_manage.php, infoGrid_manage_add.php, infoGrid_manage_edit.php, infoGrid_manage_delete.php';
 $actionRows[0]['entryURL'] = 'infoGrid_manage.php';
 $actionRows[0]['menuShow'] = 'Y';
@@ -113,3 +113,13 @@ $array['sourceModuleName'] = 'Info Grid';
 $array['sourceModuleAction'] = 'View Info Grid';
 $array['sourceModuleInclude'] = 'hook_dashboard_infoGridView.php';
 $hooks[2] = "INSERT INTO `gibbonHook` (`gibbonHookID`, `name`, `type`, `options`, gibbonModuleID) VALUES (NULL, 'Parent Information', 'Parental Dashboard', '".serialize($array)."', (SELECT gibbonModuleID FROM gibbonModule WHERE name='$name'));";
+
+//Translatables
+__m('Info Grid');
+__m('Offers school-defined image-grids of links to useful resources, with access based on role category (staff, student, parent).');
+__m('Allows a user to define and edit entries in the Info Grid.');
+__m('Allows a user to view the Info Grid.');
+__m('Allows a user to view image credits for logo images.');
+__m('Staff Information');
+__m('Student Information');
+__m('Parent Information');
