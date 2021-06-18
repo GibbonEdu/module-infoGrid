@@ -32,20 +32,20 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     $returns = array();
     $editLink = '';
     if (isset($_GET['editID'])) {
-        $editLink = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage_edit.php&infoGridEntryID='.$_GET['editID'].'&search='.$_GET['search'];
+        $editLink = $session->get('absoluteURL').'/index.php?q=/modules/Info Grid/infoGrid_manage_edit.php&infoGridEntryID='.$_GET['editID'].'&search='.$_GET['search'];
     }
     if (isset($_GET['return'])) {
         returnProcess($guid, $_GET['return'], $editLink, $returns);
     }
 
     if ($_GET['search'] != '') { echo "<div class='linkTop'>";
-        echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
+        echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
         echo '</div>';
     }
 
-    $form = Form::create('action', $_SESSION[$guid]['absoluteURL'].'/modules/Info Grid/infoGrid_manage_addProcess.php?search='.$_GET['search']);
+    $form = Form::create('action', $session->get('absoluteURL').'/modules/Info Grid/infoGrid_manage_addProcess.php?search='.$_GET['search']);
 
-    $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+    $form->addHiddenValue('address', $session->get('address'));
 
     $row = $form->addRow();
         $row->addLabel('title', __('Title'));

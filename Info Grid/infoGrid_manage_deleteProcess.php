@@ -21,9 +21,9 @@ include '../../gibbon.php';
 
 include './moduleFunctions.php';
 
-$infoGridEntryID = $_POST['infoGridEntryID'];
-$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address'])."/infoGrid_manage_delete.php&infoGridEntryID=$infoGridEntryID&search=".$_GET['search'];
-$URLDelete = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage.php&search='.$_GET['search'];
+$infoGridEntryID = $_POST['infoGridEntryID'] ?? '';
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address'])."/infoGrid_manage_delete.php&infoGridEntryID=$infoGridEntryID&search=".$_GET['search'];
+$URLDelete = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage.php&search='.$_GET['search'];
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_delete.php') == false) {
     //Fail 0

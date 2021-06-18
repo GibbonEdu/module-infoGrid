@@ -56,11 +56,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
             if ($_GET['search'] != '') {
                 echo "<div class='linkTop'>";
-                echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
+                echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
                 echo '</div>';
             }
 
-            $form = DeleteForm::createForm($_SESSION[$guid]['absoluteURL']."/modules/Info Grid/infoGrid_manage_deleteProcess.php?infoGridEntryID=$infoGridEntryID&search=".$_GET['search']);
+            $form = DeleteForm::createForm($session->get('absoluteURL')."/modules/Info Grid/infoGrid_manage_deleteProcess.php?infoGridEntryID=$infoGridEntryID&search=".$_GET['search']);
             echo $form->getOutput();
         }
     }

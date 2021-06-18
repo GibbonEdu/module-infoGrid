@@ -38,11 +38,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
 
     $search = isset($_GET['search'])? $_GET['search'] : '';
 
-    $form = Form::create('search', $_SESSION[$guid]['absoluteURL'].'/index.php', 'get');
+    $form = Form::create('search', $session->get('absoluteURL').'/index.php', 'get');
     $form->setTitle(__('Search'));
     $form->setClass('noIntBorder fullWidth');
 
-    $form->addHiddenValue('q', '/modules/'.$_SESSION[$guid]['module'].'/infoGrid_manage.php');
+    $form->addHiddenValue('q', '/modules/'.$session->get('module').'/infoGrid_manage.php');
 
     $row = $form->addRow();
         $row->addLabel('search', __('Search For'))->description(__('Title'));

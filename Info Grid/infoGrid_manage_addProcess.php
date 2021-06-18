@@ -23,7 +23,7 @@ include './moduleFunctions.php';
 
 
 
-$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage_add.php&search='.$_GET['search'];
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage_add.php&search='.$_GET['search'];
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_add.php') == false) {
     //Fail 0
@@ -31,13 +31,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     header("Location: {$URL}");
 } else {
     //Proceed!
-    $title = $_POST['title'];
-    $staff = $_POST['staff'];
-    $student = $_POST['student'];
-    $parent = $_POST['parent'];
-    $priority = $_POST['priority'];
-    $url = $_POST['url'];
-    $logoLicense = $_POST['logoLicense'];
+    $title = $_POST['title'] ?? '';
+    $staff = $_POST['staff'] ?? '';
+    $student = $_POST['student'] ?? '';
+    $parent = $_POST['parent'] ?? '';
+    $priority = $_POST['priority'] ?? '';
+    $url = $_POST['url'] ?? '';
+    $logoLicense = $_POST['logoLicense'] ?? '';
 
     if ($title == '' or $staff == '' or $student == '' or $parent == '' or $priority == '' or $url == '') {
         //Fail 3
@@ -64,7 +64,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
         //Write to database
         try {
-            $data = array('title' => $title, 'staff'=>$staff, 'student'=>$student, 'parent'=>$parent, 'priority' => $priority, 'url' => $url, 'logo' => $logo, 'logoLicense' => $logoLicense, 'gibbonPersonIDCreator' => $_SESSION[$guid]['gibbonPersonID'], 'timestampCreated' => date('Y-m-d H:i:s'));
+            $data = array('title' => $title, 'staff'=>$staff, 'student'=>$student, 'parent'=>$parent, 'priority' => $priority, 'url' => $url, 'logo' => $logo, 'logoLicense' => $logoLicense, 'gibbonPersonIDCreator' => $session->get('gibbonPersonID'), 'timestampCreated' => date('Y-m-d H:i:s'));
             $sql = 'INSERT INTO infoGridEntry SET title=:title, staff=:staff, student=:student, parent=:parent, priority=:priority, url=:url, logo=:logo, logoLicense=:logoLicense, gibbonPersonIDCreator=:gibbonPersonIDCreator, timestampCreated=:timestampCreated';
             $result = $connection2->prepare($sql);
             $result->execute($data);
