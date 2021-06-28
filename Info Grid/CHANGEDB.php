@@ -134,3 +134,8 @@ $sql[$count][1] = "
 UPDATE gibbonAction SET description='Allows a user to define and edit entries in the Info Grid.' WHERE name='Manage Info Grid' AND gibbonModuleID=(SELECT gibbonModuleID FROM gibbonModule WHERE name='Info Grid');end
 ";
 
+//v2.4.00
+++$count;
+$sql[$count][0] = '2.4.00';
+$sql[$count][1] = '';
+
