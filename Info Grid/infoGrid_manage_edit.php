@@ -56,13 +56,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
             if ($_GET['search'] != '') {
                 echo "<div class='linkTop'>";
-                echo "<a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
+                echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
                 echo '</div>';
             }
 
-            $form = Form::create('action', $_SESSION[$guid]['absoluteURL'].'/modules/Info Grid/infoGrid_manage_editProcess.php?infoGridEntryID='.$infoGridEntryID.'&search='.$_GET['search']);
+            $form = Form::create('action', $session->get('absoluteURL').'/modules/Info Grid/infoGrid_manage_editProcess.php?infoGridEntryID='.$infoGridEntryID.'&search='.$_GET['search']);
 
-            $form->addHiddenValue('address', $_SESSION[$guid]['address']);
+            $form->addHiddenValue('address', $session->get('address'));
 
             $row = $form->addRow();
                 $row->addLabel('title', __('Title'));
@@ -92,7 +92,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                 $row->addLabel('file', __('Logo'))->description(__('335px x 140px'));
                 $row->addFileUpload('file')
                     ->accepts('.jpg,.jpeg,.gif,.png')
-                    ->setAttachment('logo', $_SESSION[$guid]['absoluteURL'], $values['logo']);
+                    ->setAttachment('logo', $session->get('absoluteURL'), $values['logo']);
 
             $row = $form->addRow();
                 $row->addLabel('logoLicense', __m('Logo License/Credits'));

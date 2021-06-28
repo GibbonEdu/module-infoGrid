@@ -22,7 +22,7 @@ include '../../gibbon.php';
 include './moduleFunctions.php';
 
 $infoGridEntryID = $_GET['infoGridEntryID'];
-$URL = $_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_POST['address'])."/infoGrid_manage_edit.php&infoGridEntryID=$infoGridEntryID&search=".$_GET['search'];
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address'])."/infoGrid_manage_edit.php&infoGridEntryID=$infoGridEntryID&search=".$_GET['search'];
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_edit.php') == false) {
     //Fail 0
@@ -56,13 +56,13 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
             $row = $result->fetch();
 
             //Validate Inputs
-            $title = $_POST['title'];
-            $staff = $_POST['staff'];
-            $student = $_POST['student'];
-            $parent = $_POST['parent'];
-            $priority = $_POST['priority'];
-            $url = $_POST['url'];
-            $logoLicense = $_POST['logoLicense'];
+            $title = $_POST['title'] ?? '';
+            $staff = $_POST['staff'] ?? '';
+            $student = $_POST['student'] ?? '';
+            $parent = $_POST['parent'] ?? '';
+            $priority = $_POST['priority'] ?? '';
+            $url = $_POST['url'] ?? '';
+            $logoLicense = $_POST['logoLicense'] ?? '';
 
             if ($title == '' or $staff == '' or $student == '' or $parent == '' or $priority == '' or $url == '') {
                 //Fail 3
