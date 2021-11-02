@@ -32,10 +32,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.
 } else {
     $page->breadcrumbs->add(__m('Manage Info Grid'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     $search = isset($_GET['search'])? $_GET['search'] : '';
 
     $form = Form::create('search', $session->get('absoluteURL').'/index.php', 'get');

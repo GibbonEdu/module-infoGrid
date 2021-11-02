@@ -30,10 +30,6 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     $page->breadcrumbs->add(__m('Manage Info Grid'), 'infoGrid_manage.php');
     $page->breadcrumbs->add(__m('Delete Staff Hanbook Entry'));
 
-    if (isset($_GET['return'])) {
-        returnProcess($guid, $_GET['return'], null, null);
-    }
-
     //Check if school year specified
     $infoGridEntryID = $_GET['infoGridEntryID'];
     if ($infoGridEntryID == '') {

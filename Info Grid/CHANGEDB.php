@@ -139,3 +139,7 @@ UPDATE gibbonAction SET description='Allows a user to define and edit entries in
 $sql[$count][0] = '2.4.00';
 $sql[$count][1] = '';
 
+//v2.4.01
+++$count;
+$sql[$count][0] = '2.4.01';
+$sql[$count][1] = '';
