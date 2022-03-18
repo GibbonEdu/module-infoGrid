@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Http\Url;
 use Gibbon\Forms\Form;
 
 //Module includes
@@ -30,9 +31,11 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     $page->breadcrumbs->add(__m('Manage Info Grid'), 'infoGrid_manage.php');
     $page->breadcrumbs->add(__m('Edit Info Grid Entry'));
 
+    $search = $_GET['search'] ?? '';
+
     //Check if school year specified
-    $infoGridEntryID = $_GET['infoGridEntryID'];
-    if ($infoGridEntryID == '') {
+    $infoGridEntryID = $_GET['infoGridEntryID'] ?? null;
+    if (empty($infoGridEntryID)) {
         $page->addError(__('You have not specified a record.'));
     } else {
         try {
@@ -50,13 +53,14 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
             //Let's go!
             $values = $result->fetch();
 
-            if ($_GET['search'] != '') {
-                echo "<div class='linkTop'>";
-                echo "<a href='".$session->get('absoluteURL').'/index.php?q=/modules/Info Grid/infoGrid_manage.php&search='.$_GET['search']."'>Back to Search Results</a>";
-                echo '</div>';
+            if (!empty($search)) {
+                $params = [
+                    "search" => $search
+                ];
+                $page->navigator->addSearchResultsAction(Url::fromModuleRoute('Info Grid', 'infoGrid_manage.php')->withQueryParams($params));
             }
 
-            $form = Form::create('action', $session->get('absoluteURL').'/modules/Info Grid/infoGrid_manage_editProcess.php?infoGridEntryID='.$infoGridEntryID.'&search='.$_GET['search']);
+            $form = Form::create('action', $session->get('absoluteURL').'/modules/Info Grid/infoGrid_manage_editProcess.php?infoGridEntryID='.$infoGridEntryID."&search=$search");
 
             $form->addHiddenValue('address', $session->get('address'));
 
