@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v2.5.01
+-------
+Fixed CSS bug introduced in last version
+
 v2.5.00
 -------
 Transferred ownership from Ross Parker to Gibbon Foundation
