@@ -27,7 +27,7 @@ $description = 'Offers school-defined image-grids of links to useful resources, 
 $entryURL = 'infoGrid_manage.php';
 $type = 'Additional';
 $category = 'Other';
-$version = '2.5.01';
+$version = '2.5.02';
 $author = "Gibbon Foundation";
 $url = "https://gibbonedu.org";
 
