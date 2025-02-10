@@ -165,3 +165,8 @@ $sql[$count][1] = "";
 ++$count;
 $sql[$count][0] = '2.5.02';
 $sql[$count][1] = "";
+
+//v2.6.00
+++$count;
+$sql[$count][0] = '2.6.00';
+$sql[$count][1] = "";
