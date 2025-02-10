@@ -59,19 +59,18 @@ class InfoGrid
         if ($canManage) {
             $table->addHeaderAction('edit', __('Edit'))
                 ->setURL('/modules/Info Grid/infoGrid_manage.php')
-                ->displayLabel()
-                ->prepend(' | ');
+                ->displayLabel();
         }
 
-        $table->addMetaData('gridClass', 'flex items-stretch border rounded bg-blue-100');
+        $table->addMetaData('gridClass', 'flex items-stretch border rounded bg-blue-50');
         $table->addMetaData('gridItemClass', 'w-full sm:w-1/2 p-4 text-center text-sm leading-normal');
 
         $table->addColumn('logo')
             ->format(function ($info) {
                 $logo = !empty($info['logo'])
                     ? $info['logo']
-                    : '/modules/Info Grid/img/anonymous.jpg';
-                return Format::link($info['url'], Format::userPhoto($logo, 140, 'w-full p-1'));
+                    : 'modules/Info Grid/img/anonymous.jpg';
+                return Format::link($info['url'], Format::photo(trim($logo,'/'), 140, 'w-full p-1'));
             });
 
         $table->addColumn('link')
