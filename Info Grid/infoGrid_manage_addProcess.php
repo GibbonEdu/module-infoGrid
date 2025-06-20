@@ -51,7 +51,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
         //Move attached image  file, if there is one
         if (!empty($_FILES['file']['tmp_name'])) {
-            $fileUploader = new Gibbon\FileUploader($pdo, $gibbon->session);
+            $fileUploader = new Gibbon\FileUploader($pdo, $session);
             $fileUploader->getFileExtensions('Graphics/Design');
 
             $file = (isset($_FILES['file']))? $_FILES['file'] : null;
