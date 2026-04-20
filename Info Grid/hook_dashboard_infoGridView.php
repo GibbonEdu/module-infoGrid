@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Domain\User\RoleGateway;
 use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 
 $returnInt = null;
@@ -33,7 +34,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     global $container, $autoloader;
     $autoloader->addPsr4('Gibbon\\Module\\InfoGrid\\', realpath(__DIR__).'/src');
 
-    $roleCategory = getRoleCategory($session->get('gibbonRoleIDCurrent'), $connection2);
+    $roleCategory = $container->get(RoleGateway::class)->getRoleCategory($session->get('gibbonRoleIDCurrent'));
     $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
 
     $table = $container->get(InfoGrid::class)->create($roleCategory, $canManage);
