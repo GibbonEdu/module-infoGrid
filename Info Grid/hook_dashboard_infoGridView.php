@@ -19,20 +19,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Services\Format;
 use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 
 $returnInt = null;
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
     // Access denied
-    $returnInt .= "<div class='error'>";
-    $returnInt .= 'You do not have access to this action.';
-    $returnInt .= '</div>';
+    $returnInt .= Format::alert('You do not have access to this action.', 'error');
 } else {
     // Add the module manually to autoloader because it's hooked from the dashboard
     global $container, $autoloader;
     $autoloader->addPsr4('Gibbon\\Module\\InfoGrid\\', realpath(__DIR__).'/src');
-    
     $roleCategory = $session->get('gibbonRoleIDCurrentCategory');
     $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
 
