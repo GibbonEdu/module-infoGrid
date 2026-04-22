@@ -33,8 +33,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     // Add the module manually to autoloader because it's hooked from the dashboard
     global $container, $autoloader;
     $autoloader->addPsr4('Gibbon\\Module\\InfoGrid\\', realpath(__DIR__).'/src');
-
-    $roleCategory = $container->get(RoleGateway::class)->getRoleCategory($session->get('gibbonRoleIDCurrent'));
+    
+    $roleCategory = $session->get('gibbonRoleIDCurrentCategory');
     $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
 
     $table = $container->get(InfoGrid::class)->create($roleCategory, $canManage);

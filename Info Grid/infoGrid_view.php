@@ -34,7 +34,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     if ($highestAction == false) {
         $page->addError(__('The highest grouped action cannot be determined.'));
     } else {
-        $roleCategory = $container->get(RoleGateway::class)->getRoleCategory($session->get('gibbonRoleIDCurrent'));
+        $roleCategory = $session->get('gibbonRoleIDCurrentCategory');
         $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
 
         $table = $container->get(InfoGrid::class)->create($roleCategory, $canManage);
