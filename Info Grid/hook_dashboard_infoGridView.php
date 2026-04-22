@@ -24,7 +24,7 @@ use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 $returnInt = null;
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
-    //Acess denied
+    // Access denied
     $returnInt .= "<div class='error'>";
     $returnInt .= 'You do not have access to this action.';
     $returnInt .= '</div>';
@@ -32,8 +32,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.ph
     // Add the module manually to autoloader because it's hooked from the dashboard
     global $container, $autoloader;
     $autoloader->addPsr4('Gibbon\\Module\\InfoGrid\\', realpath(__DIR__).'/src');
-
-    $roleCategory = getRoleCategory($session->get('gibbonRoleIDCurrent'), $connection2);
+    
+    $roleCategory = $session->get('gibbonRoleIDCurrentCategory');
     $canManage = isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage.php');
 
     $table = $container->get(InfoGrid::class)->create($roleCategory, $canManage);
