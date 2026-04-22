@@ -19,17 +19,16 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-use Gibbon\Domain\User\RoleGateway;
 use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
-    //Acess denied
+    // Access denied
     $page->addError(__('You do not have access to this action.'));
 } else {
-    //Proceed!
+    // Proceed!
     $page->breadcrumbs->add(__m('View Info Grid'));
 
-    //Get action with highest precendence
+    // Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
     if ($highestAction == false) {
         $page->addError(__('The highest grouped action cannot be determined.'));

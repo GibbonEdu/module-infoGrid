@@ -19,13 +19,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-use Gibbon\Domain\User\RoleGateway;
 use Gibbon\Module\InfoGrid\Tables\InfoGrid;
 
 $returnInt = null;
 
 if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_view.php') == false) {
-    //Acess denied
+    // Access denied
     $returnInt .= "<div class='error'>";
     $returnInt .= 'You do not have access to this action.';
     $returnInt .= '</div>';
