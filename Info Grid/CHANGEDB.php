@@ -176,6 +176,11 @@ $sql[$count][1] = "";
 $sql[$count][0] = '2.6.01';
 $sql[$count][1] = "";
 
+//v2.6.02
+++$count;
+$sql[$count][0] = '2.6.02';
+$sql[$count][1] = "";
+
 //v2.7.00
 ++$count;
 $sql[$count][0] = '2.7.00';
