@@ -2,11 +2,11 @@ CHANGELOG
 =========
 2.7.00
 -------
-Replaced the deprecated getRoleCategory() method to use the new RoleGateway class
+Added comprehensive file upload tracking system to monitor and manage all file uploads across the system
 
 2.6.02
 -------
-Added comprehensive file upload tracking system to monitor and manage all file uploads across the system
+Replaced the deprecated getRoleCategory() method to use the new RoleGateway class
 
 2.6.01
 -------
