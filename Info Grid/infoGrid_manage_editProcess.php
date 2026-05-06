@@ -19,6 +19,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Contracts\Filesystem\FileHandler;
+
 include '../../gibbon.php';
 
 include './moduleFunctions.php';
@@ -73,6 +75,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
             } else {
                 $partialFail = false;
                 $logo = $_POST['logo'];
+                $fileMetaData = null;
 
                 //Move attached image  file, if there is one
                 if (!empty($_FILES['file']['tmp_name'])) {
@@ -86,6 +89,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
                     if (empty($logo)) {
                         $partialFail = true;
+                    } else {
+                        $fileMetaData = $fileUploader->getFileMetaData($logo);
                     }
                 }
 
@@ -100,6 +105,19 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
                     $URL = $URL.'&return=error2';
                     header("Location: {$URL}");
                     exit();
+                }
+                
+                // Record file tracking
+                if (!empty($fileMetaData) && !empty($infoGridEntryID)) {
+                    $gibbonFileID = $container->get(FileHandler::class)->recordFileUpload($fileMetaData, 'infoGridEntry', $infoGridEntryID, 'logo');
+                    if (empty($gibbonFileID)) {
+                        $partialFail = true;
+                    }
+                }
+                
+                // Handle file deletion
+                if (empty($logo) && !empty($row['logo'])) {
+                    $container->get(FileHandler::class)->deleteFile('infoGridEntry', $infoGridEntryID, 'logo');
                 }
 
                 if ($partialFail == true) {

@@ -19,11 +19,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Contracts\Filesystem\FileHandler;
+
 include '../../gibbon.php';
 
 include './moduleFunctions.php';
-
-
 
 $URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address']).'/infoGrid_manage_add.php&search='.$_GET['search'];
 
@@ -48,6 +48,7 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
     } else {
         $partialFail = false;
         $logo = null;
+        $fileMetaData = null;
 
         //Move attached image  file, if there is one
         if (!empty($_FILES['file']['tmp_name'])) {
@@ -61,6 +62,8 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
 
             if (empty($logo)) {
                 $partialFail = true;
+            } else {
+                $fileMetaData = $fileUploader->getFileMetaData($logo);
             }
         }
 
@@ -78,6 +81,14 @@ if (isActionAccessible($guid, $connection2, '/modules/Info Grid/infoGrid_manage_
         }
 
         $AI = str_pad($connection2->lastInsertID(), 8, '0', STR_PAD_LEFT);
+
+        // Record file tracking
+        if (!empty($fileMetaData) && !empty($AI)) {
+            $gibbonFileID = $container->get(FileHandler::class)->recordFileUpload($fileMetaData, 'infoGridEntry', $AI, 'logo');
+            if (empty($gibbonFileID)) {
+                $partialFail = true;
+            }
+        }
 
         if ($partialFail == true) {
             $URL .= '&return=warning1';
